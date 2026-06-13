@@ -76,7 +76,7 @@ class Config:
     """
 
     __slots__ = (
-        "_appPath", "_appRoot", "_backPath", "_backupPath", "_confPath", "_dLocale", "_dShortDate",
+        "_aiSettings", "_appPath", "_appRoot", "_backPath", "_backupPath", "_confPath", "_dLocale", "_dShortDate",
         "_dShortDateTime", "_dataPath", "_errData", "_hasError", "_homePath", "_lastAuthor",
         "_manuals", "_nwLangPath", "_qLocale", "_qtLangPath", "_qtTrans", "_recentPaths",
         "_recentProjects", "_splash", "allowOpenDial", "altDialogClose", "altDialogOpen",
