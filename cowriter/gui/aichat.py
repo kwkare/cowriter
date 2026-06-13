@@ -12,12 +12,9 @@ from typing import TYPE_CHECKING
 
 from PyQt6.QtCore import QThread, pyqtSignal, pyqtSlot
 from PyQt6.QtWidgets import (
-    QDialogButtonBox, QHBoxLayout, QPlainTextEdit, QPushButton,
+    QApplication, QDialogButtonBox, QHBoxLayout, QPlainTextEdit, QPushButton,
     QScrollArea, QTextBrowser, QVBoxLayout, QWidget
 )
-
-from cowriter import CONFIG, SHARED
-from cowriter.ai.chat import AIChatSession
 from cowriter.ai.completion import AICompletion
 from cowriter.ai.provider import create_provider
 from cowriter.ai.settings import AISettings
@@ -270,7 +267,7 @@ class GuiAICompleteDialog(NNonBlockingDialog):
         """Run the AI operation."""
         self.btnGenerate.setEnabled(False)
         self.resultArea.setPlainText(self.tr("Generating..."))
-        QThread.safeProcessEvents()  # type: ignore
+        QApplication.processEvents()
 
         settings = CONFIG.aiSettings
         try:
