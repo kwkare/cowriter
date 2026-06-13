@@ -895,7 +895,6 @@ class GuiPreferences(NDialog):
         self.aiProvider.addItem("OpenAI (GPT-4o / etc.)", "openai")
         self.aiProvider.addItem("Anthropic (Claude)", "anthropic")
         self.aiProvider.setCurrentData(CONFIG.aiSettings.provider_type, "ollama")
-        self.aiProvider.currentIndexChanged.connect(self._toggleAIProvider)
 
         self.mainForm.addRow(
             self.tr("AI Provider"), self.aiProvider,
