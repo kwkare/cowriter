@@ -247,7 +247,7 @@ def main(sysArgs: list | None = None) -> GuiMain | None:
             from Foundation import NSBundle  # type: ignore
             bundle = NSBundle.mainBundle()
             info = bundle.localizedInfoDictionary() or bundle.infoDictionary()
-            info["CFBundleName"] = "novelWriter"
+            info["CFBundleName"] = "CoWriter"
         except Exception:
             pass  # Quietly ignore error
     elif sys.platform == "win32":
@@ -257,6 +257,15 @@ def main(sysArgs: list | None = None) -> GuiMain | None:
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appID)  # type: ignore
         except Exception:
             pass  # Quietly ignore error
+
+    # Fix Windows console encoding for Unicode support
+    if sys.platform == "win32":
+        try:
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+            sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+
 
     # Import GUI (after dependency checks), and launch
     from cowriter.gui.theme import GuiTheme
@@ -272,7 +281,7 @@ def main(sysArgs: list | None = None) -> GuiMain | None:
     splash.show()
 
     splash.showStatus("")
-    splash.showStatus("Starting novelWriter ...")
+    splash.showStatus("Starting CoWriter ...")
 
     # Run Config steps that require the QApplication
     CONFIG.loadConfig(splash)
