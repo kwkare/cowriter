@@ -263,10 +263,13 @@ class GuiAICompleteDialog(NNonBlockingDialog):
         logger.debug("Ready: GuiAICompleteDialog")
 
     def _runOperation(self, operation: str, text: str) -> None:
-        """Run the AI operation."""
+        """Run the AI operation in a background thread."""
         self.btnGenerate.setEnabled(False)
         self.resultArea.setPlainText(self.tr("Generating..."))
         QApplication.processEvents()
+
+        from cowriter.ai.provider import create_provider
+        from cowriter.ai.completion import AICompletion
 
         settings = CONFIG.aiSettings
         try:
@@ -275,35 +278,75 @@ class GuiAICompleteDialog(NNonBlockingDialog):
                 settings.get_provider_config(),
             )
             completion = AICompletion(provider)
-
-            import asyncio
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-
-            try:
-                if operation == "continue":
-                    result = loop.run_until_complete(completion.complete(text))
-                elif operation == "rewrite":
-                    result = loop.run_until_complete(completion.rewrite(text))
-                elif operation == "expand":
-                    result = loop.run_until_complete(completion.expand(text))
-                elif operation == "summarize":
-                    result = loop.run_until_complete(completion.summarize(text))
-                else:
-                    result = "Unknown operation"
-            finally:
-                loop.close()
-
-            self._resultText = result
-            self.resultArea.setPlainText(result)
-            self.btnApply.setEnabled(True)
-
         except Exception as exc:
-            self.resultArea.setPlainText(f"Error: {exc}")
+            self.resultArea.setPlainText(f"Provider error: {exc}")
+            self.btnGenerate.setEnabled(True)
+            return
 
-        self.btnGenerate.setEnabled(True)
+        # Run in a QThread to avoid blocking the UI
+        self._worker = _CompletionWorker(completion, operation, text)
+        self._worker.resultReady.connect(self._onCompletionResult)
+        self._worker.errorOccurred.connect(self._onCompletionError)
+        self._worker.finished.connect(lambda: self.btnGenerate.setEnabled(True))
+        self._worker.start()
 
+    @pyqtSlot(str)
+    def _onCompletionResult(self, result: str) -> None:
+        self._resultText = result
+        self.resultArea.setPlainText(result)
+        self.btnApply.setEnabled(True)
+
+    @pyqtSlot(str)
+    def _onCompletionError(self, error: str) -> None:
+        self.resultArea.setPlainText(f"Error: {error}")
+
+    @pyqtSlot()
     def _applyResult(self) -> None:
         """Emit the result and close."""
         self.resultReady.emit(self._resultText)
         self.close()
+
+
+class _CompletionWorker(QThread):
+    """Worker thread for AI completion operations."""
+
+    resultReady = pyqtSignal(str)
+    errorOccurred = pyqtSignal(str)
+
+    def __init__(
+        self, completion: AICompletion, operation: str, text: str
+    ) -> None:
+        super().__init__()
+        self._completion = completion
+        self._operation = operation
+        self._text = text
+
+    def run(self) -> None:
+        """Run the AI operation in a thread-safe way."""
+        import asyncio
+        try:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            try:
+                ops = {
+                    "continue": self._completion.complete,
+                    "rewrite": self._completion.rewrite,
+                    "expand": self._completion.expand,
+                    "summarize": self._completion.summarize,
+                }
+                if fn := ops.get(self._operation):
+                    result = loop.run_until_complete(fn(self._text))
+                else:
+                    result = "Unknown operation"
+            finally:
+                loop.close()
+            self.resultReady.emit(result)
+        except Exception as exc:
+            error_msg = str(exc)
+            # Handle encoding issues in error messages
+            try:
+                error_msg.encode("utf-8")
+            except (UnicodeEncodeError, UnicodeDecodeError):
+                error_msg = error_msg.encode("utf-8", errors="replace").decode("utf-8")
+            self.errorOccurred.emit(error_msg)
+

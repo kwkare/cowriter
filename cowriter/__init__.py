@@ -107,7 +107,7 @@ def main(sysArgs: list | None = None) -> GuiMain | None:
     ]
 
     helpMsg = (
-        f"novelWriter {__version__} ({__date__})\n"
+        f"CoWriter {__version__} ({__date__})\n"
         f"{__copyright__}\n"
         "\n"
         "This program is free software: you can redistribute it and/or modify\n"
@@ -201,7 +201,7 @@ def main(sysArgs: list | None = None) -> GuiMain | None:
         cHandle.setFormatter(logging.Formatter(fmt=logFmt, style="{"))
         pkgLogger.addHandler(cHandle)
 
-    logger.info("Starting novelWriter %s (%s) %s", __version__, __hexversion__, __date__)
+    logger.info("Starting CoWriter %s (%s) %s", __version__, __hexversion__, __date__)
 
     # Check Packages and Versions
     errorData = []
