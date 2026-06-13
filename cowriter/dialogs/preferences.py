@@ -902,7 +902,7 @@ class GuiPreferences(NDialog):
         )
 
         # OpenAI Settings
-        self.mainForm.addGroupLabel(self.tr("OpenAI Settings"), section, indent=1)
+        self.mainForm.addGroupLabel(self.tr("OpenAI Settings"), section)
 
         self.aiOpenAIKey = QLineEdit(self)
         self.aiOpenAIKey.setMinimumWidth(300)
@@ -930,7 +930,7 @@ class GuiPreferences(NDialog):
         )
 
         # Anthropic Settings
-        self.mainForm.addGroupLabel(self.tr("Anthropic Settings"), section, indent=1)
+        self.mainForm.addGroupLabel(self.tr("Anthropic Settings"), section)
 
         self.aiAnthropicKey = QLineEdit(self)
         self.aiAnthropicKey.setMinimumWidth(300)
@@ -950,7 +950,7 @@ class GuiPreferences(NDialog):
         )
 
         # Ollama Settings
-        self.mainForm.addGroupLabel(self.tr("Ollama Settings"), section, indent=1)
+        self.mainForm.addGroupLabel(self.tr("Ollama Settings"), section)
 
         self.aiOllamaModel = QLineEdit(self)
         self.aiOllamaModel.setMinimumWidth(200)
@@ -969,7 +969,7 @@ class GuiPreferences(NDialog):
         )
 
         # Generation Parameters
-        self.mainForm.addGroupLabel(self.tr("Generation"), section, indent=1)
+        self.mainForm.addGroupLabel(self.tr("Generation"), section)
 
         self.aiTemperature = NDoubleSpinBox(self)
         self.aiTemperature.setMinimumWidth(100)
@@ -993,7 +993,7 @@ class GuiPreferences(NDialog):
         )
 
         # Feature Toggles
-        self.mainForm.addGroupLabel(self.tr("Options"), section, indent=1)
+        self.mainForm.addGroupLabel(self.tr("Options"), section)
 
         self.aiStreaming = NSwitch(self)
         self.aiStreaming.setChecked(CONFIG.aiSettings.enable_streaming)
