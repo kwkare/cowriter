@@ -160,7 +160,7 @@ def main(sysArgs: list | None = None) -> GuiMain | None:
             print(helpMsg)
             sys.exit(0)
         elif inOpt in ("-v", "--version"):
-            print(f"novelWriter Version {__version__} [{__date__}]")
+            print(f"CoWriter Version {__version__} [{__date__}]")
             sys.exit(0)
         elif inOpt in ("-i", "--info"):
             logLevel = logging.INFO
