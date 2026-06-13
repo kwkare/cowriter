@@ -50,13 +50,8 @@ from cowriter.constants import nwFiles, nwQuotes, nwUnicode, trStats
 from cowriter.enum import nwTheme
 from cowriter.error import formatException, logException
 
-if TYPE_CHECKING:
-    from datetime import datetime
+from cowriter.ai.settings import AISettings
 
-    from cowriter.core.projectdata import NWProjectData
-    from cowriter.splash import NSplashScreen
-
-    from cowriter.ai.settings import AISettings
 
 logger = logging.getLogger(__name__)
 

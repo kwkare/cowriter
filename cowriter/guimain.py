@@ -866,11 +866,13 @@ class GuiMain(QMainWindow):
     ##
 
     def closeMain(self) -> bool:
-        """Save everything, and close novelWriter."""
-            self.tr("Do you want to exit CoWriter?"),
-            self.tr("Changes are saved automatically."),
-        ]):
-            return False
+        """Save everything, and close CoWriter."""
+        if SHARED.hasProject:
+            if not self.askQuestion(
+                self.tr("Do you want to exit CoWriter?"),
+                self.tr("Changes are saved automatically."),
+            ):
+                return False
 
         logger.info("Exiting CoWriter")
 
