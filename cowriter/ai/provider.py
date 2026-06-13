@@ -17,17 +17,10 @@ class AIProvider(ABC):
     """Abstract base class for AI model providers."""
 
     @abstractmethod
-    async def complete(
+    def complete(
         self, prompt: str, *, system: str | None = None, **kwargs: object
     ) -> str:
         """Send a completion request and return the full response."""
-        ...
-
-    @abstractmethod
-    async def stream_complete(
-        self, prompt: str, *, system: str | None = None, **kwargs: object
-    ) -> AsyncIterator[str]:
-        """Send a completion request and stream the response chunks."""
         ...
 
     @abstractmethod
@@ -78,16 +71,17 @@ class OpenAIProvider(AIProvider):
     def provider_name(self) -> str:
         return "OpenAI"
 
-    async def complete(
+    def complete(
         self, prompt: str, *, system: str | None = None, **kwargs: object
     ) -> str:
         """Send prompt to OpenAI-compatible API and return response."""
-        import httpx
+        return self._complete_sync(prompt, system=system, **kwargs)
 
-        headers = {
-            "Authorization": f"Bearer {self._api_key}",
-            "Content-Type": "application/json",
-        }
+    def _complete_sync(
+        self, prompt: str, *, system: str | None = None, **kwargs: object
+    ) -> str:
+        """Send prompt synchronously (for QThread use)."""
+        from httpx import Client
         messages: list[dict[str, str]] = []
         if system:
             messages.append({"role": "system", "content": system})
@@ -100,10 +94,9 @@ class OpenAIProvider(AIProvider):
             **kwargs,
         }
 
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
+        with Client() as client:
+            response = client.post(
                 f"{self._base_url}/chat/completions",
-                headers=headers,
                 json=payload,
                 timeout=60.0,
             )
@@ -226,17 +219,12 @@ class AnthropicProvider(AIProvider):
     def provider_name(self) -> str:
         return "Anthropic"
 
-    async def complete(
+    def complete(
         self, prompt: str, *, system: str | None = None, **kwargs: object
     ) -> str:
         """Send prompt to Anthropic API."""
-        import httpx
+        from httpx import Client
 
-        headers = {
-            "x-api-key": self._api_key,
-            "anthropic-version": "2023-06-01",
-            "Content-Type": "application/json",
-        }
         payload: dict[str, object] = {
             "model": self._model,
             "max_tokens": 4096,
@@ -247,8 +235,13 @@ class AnthropicProvider(AIProvider):
         if system:
             payload["system"] = system
 
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
+        headers = {
+            "x-api-key": self._api_key,
+            "anthropic-version": "2023-06-01",
+        }
+
+        with Client() as client:
+            response = client.post(
                 "https://api.anthropic.com/v1/messages",
                 headers=headers,
                 json=payload,
@@ -257,7 +250,6 @@ class AnthropicProvider(AIProvider):
             response.raise_for_status()
             data = response.json()
             return str(data["content"][0]["text"])
-
     async def stream_complete(
         self, prompt: str, *, system: str | None = None, **kwargs: object
     ) -> AsyncIterator[str]:
@@ -369,11 +361,11 @@ class OllamaProvider(AIProvider):
     def provider_name(self) -> str:
         return "Ollama"
 
-    async def complete(
+    def complete(
         self, prompt: str, *, system: str | None = None, **kwargs: object
     ) -> str:
         """Send prompt to local Ollama instance."""
-        import httpx
+        from httpx import Client
 
         payload: dict[str, object] = {
             "model": self._model,
@@ -385,8 +377,8 @@ class OllamaProvider(AIProvider):
         if system:
             payload["system"] = system
 
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
+        with Client() as client:
+            response = client.post(
                 f"{self._base_url}/api/generate",
                 json=payload,
                 timeout=120.0,

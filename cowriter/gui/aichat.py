@@ -324,29 +324,22 @@ class _CompletionWorker(QThread):
 
     def run(self) -> None:
         """Run the AI operation in a thread-safe way."""
-        import asyncio
         try:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            try:
-                ops = {
-                    "continue": self._completion.complete,
-                    "rewrite": self._completion.rewrite,
-                    "expand": self._completion.expand,
-                    "summarize": self._completion.summarize,
-                }
-                if fn := ops.get(self._operation):
-                    result = loop.run_until_complete(fn(self._text))
-                else:
-                    result = "Unknown operation"
-            finally:
-                loop.close()
+            ops = {
+                "continue": self._completion.complete,
+                "rewrite": self._completion.rewrite,
+                "expand": self._completion.expand,
+                "summarize": self._completion.summarize,
+            }
+            if fn := ops.get(self._operation):
+                result = fn(self._text)
+            else:
+                result = "Unknown operation"
             self.resultReady.emit(result)
         except Exception:
             import traceback
             tb = traceback.format_exc()
             error_msg = str(tb)
-            # Handle encoding issues in error messages
             try:
                 error_msg.encode("utf-8")
             except (UnicodeEncodeError, UnicodeDecodeError):
