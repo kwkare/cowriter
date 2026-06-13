@@ -296,22 +296,23 @@ class GuiAICompleteDialog(NNonBlockingDialog):
         self.resultArea.setPlainText(result)
         self.btnApply.setEnabled(True)
 
-    @pyqtSlot(str)
-    def _onCompletionError(self, error: str) -> None:
-        self.resultArea.setPlainText(f"Error: {error}")
+    @pyqtSlot(str, str)
+    def _onCompletionError(self, error: str, tb: str = "") -> None:
+        msg = f"Error: {error}"
+        if tb:
+            msg += f"\n\nTraceback:\n{tb}"
+        self.resultArea.setPlainText(msg)
 
     @pyqtSlot()
     def _applyResult(self) -> None:
         """Emit the result and close."""
         self.resultReady.emit(self._resultText)
         self.close()
-
-
 class _CompletionWorker(QThread):
     """Worker thread for AI completion operations."""
 
     resultReady = pyqtSignal(str)
-    errorOccurred = pyqtSignal(str)
+    errorOccurred = pyqtSignal(str, str)
 
     def __init__(
         self, completion: AICompletion, operation: str, text: str
@@ -341,12 +342,14 @@ class _CompletionWorker(QThread):
             finally:
                 loop.close()
             self.resultReady.emit(result)
-        except Exception as exc:
-            error_msg = str(exc)
+        except Exception:
+            import traceback
+            tb = traceback.format_exc()
+            error_msg = str(tb)
             # Handle encoding issues in error messages
             try:
                 error_msg.encode("utf-8")
             except (UnicodeEncodeError, UnicodeDecodeError):
                 error_msg = error_msg.encode("utf-8", errors="replace").decode("utf-8")
-            self.errorOccurred.emit(error_msg)
+            self.errorOccurred.emit(error_msg, tb)
 
