@@ -39,7 +39,7 @@ class AICompletion:
             prompt, system=WRITER_SYSTEM_PROMPT
         )
 
-    def stream_complete(
+    async def stream_complete(
         self, text_before: str, *, style: str = ""
     ) -> AsyncIterator[str]:
         """Stream continuation from cursor position."""
