@@ -1,4 +1,4 @@
-<img align="left" style="margin: 0 0 4px 0;" src="https://raw.githubusercontent.com/YOUR_USERNAME/cowriter/main/setup/cowriter_readme.png">
+<img align="left" style="margin: 0 0 4px 0;" src="https://raw.githubusercontent.com/kwkare/cowriter/main/setup/cowriter_readme.png">
 
 # CoWriter · 共笔
 
@@ -40,7 +40,7 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/YOUR_USERNAME/cowriter.git
+git clone https://github.com/kwkare/cowriter.git
 cd cowriter
 
 # 推荐使用 PDM 安装

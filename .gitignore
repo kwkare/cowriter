@@ -69,3 +69,8 @@ ToC.txt
 # IDE
 .vscode
 .ruff_cache
+
+# Debug / scratch files (CoWriter)
+_debug*.py
+_debug*.txt
+_test_*.py

@@ -94,9 +94,15 @@ class OpenAIProvider(AIProvider):
             **kwargs,
         }
 
+        headers = {
+            "Authorization": f"Bearer {self._api_key}",
+            "Content-Type": "application/json",
+        }
+
         with Client() as client:
             response = client.post(
                 f"{self._base_url}/chat/completions",
+                headers=headers,
                 json=payload,
                 timeout=60.0,
             )
@@ -440,6 +446,8 @@ class OllamaProvider(AIProvider):
             **self._kwargs,
             **kwargs,
         }
+        if system:
+            payload["system"] = system
 
         async with httpx.AsyncClient() as client:
             response = await client.post(
