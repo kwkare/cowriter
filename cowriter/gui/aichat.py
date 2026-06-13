@@ -15,6 +15,7 @@ from PyQt6.QtWidgets import (
     QApplication, QDialogButtonBox, QHBoxLayout, QPlainTextEdit, QPushButton,
     QScrollArea, QTextBrowser, QVBoxLayout, QWidget
 )
+from cowriter import CONFIG, SHARED
 from cowriter.ai.completion import AICompletion
 from cowriter.ai.provider import create_provider
 from cowriter.ai.settings import AISettings
