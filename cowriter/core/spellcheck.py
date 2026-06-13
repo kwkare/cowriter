@@ -33,6 +33,7 @@ from typing import TYPE_CHECKING
 from cowriter.common import languageName
 from cowriter.constants import nwFiles
 from cowriter.error import logException
+from cowriter.core.cn_spellcheck import has_chinese, check_chinese
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -116,14 +117,20 @@ class NWSpellEnchant:
     ##
 
     def checkWord(self, word: str) -> bool:
-        """Forward check to pyenchant."""
+        """Forward check to pyenchant, with Chinese support."""
+        if has_chinese(word):
+            # Use Chinese-aware checker
+            return len(check_chinese(word)) == 0
         try:
             return bool(self._enchant.check(word))
         except Exception:
             return True
 
     def suggestWords(self, word: str) -> list[str]:
-        """Ask pyenchant for suggestions."""
+        """Ask pyenchant for suggestions, with Chinese support."""
+        if has_chinese(word):
+            errors = check_chinese(word)
+            return [s for _, _, s in errors]
         try:
             return self._enchant.suggest(word)
         except Exception:

@@ -68,9 +68,8 @@ ToC.txt
 
 # IDE
 .vscode
-.ruff_cache
+.provider_b64.txt
 
-# Debug / scratch files (CoWriter)
-_debug*.py
-_debug*.txt
-_test_*.py
+# Generated PDFs
+cowriter/assets/manual*.pdf
+.ruff_cache

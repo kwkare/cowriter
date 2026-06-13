@@ -31,7 +31,7 @@ import sys
 
 from pathlib import Path
 from time import time
-from typing import TYPE_CHECKING, Final
+from typing import TYPE_CHECKING, Final, cast
 
 from PyQt6.QtCore import (
     PYQT_VERSION, PYQT_VERSION_STR, QT_VERSION, QT_VERSION_STR, QDate,
@@ -54,6 +54,12 @@ from cowriter.ai.settings import AISettings
 
 
 logger = logging.getLogger(__name__)
+
+def _fixNone(value: str | None) -> str | None:
+    """Convert the string "None" and empty strings back to None."""
+    if value is None or not value or value.strip().lower() == "none":
+        return None
+    return value
 
 DEF_GUI_DARK = "default_dark"
 DEF_GUI_LIGHT = "default_light"
@@ -523,6 +529,16 @@ class Config:
             fPre = "nw_"
             fExt = ".qm"
             langList = {"en_GB": languageName("en_GB")}
+            # Also scan for JSON-based translations (.qm may not be compiled)
+            for nwFile in self._nwLangPath.iterdir():
+                nwName = nwFile.name
+                if nwFile.is_file() and nwName.startswith("nw_") and nwName.endswith(".json"):
+                    langName = nwName[3:-5]
+                    if langName and langName != "en_GB" and langName not in langList:
+                        try:
+                            langList[langName] = languageName(langName)
+                        except Exception:
+                            pass
         elif lngSet == self.LANG_PROJ:
             fPre = "project_"
             fExt = ".json"
@@ -620,8 +636,31 @@ class Config:
                         nwApp.installTranslator(qTrans)
                         self._qtTrans[lngFile] = qTrans
 
+        # Load JSON-based translations (for languages without compiled .qm)
+        self._loadJsonTranslations(nwApp)
+
         # Refresh translated values
         self.setPrimaryCount(self.useCharCount)
+
+    def _loadJsonTranslations(self, nwApp: QApplication) -> None:
+        """Load translations from JSON files in the i18n directory.
+
+        This provides an alternative to compiled .qm files for languages
+        that have JSON translation data but no .qm (e.g. zh_CN).
+        """
+        from cowriter.tools.dict_translator import DictTranslator
+
+        for jsonFile in self._nwLangPath.glob("nw_*.json"):
+            dTrans = DictTranslator()
+            if dTrans.load_json(jsonFile):
+                nwApp.installTranslator(dTrans)
+                logger.debug("Loaded JSON translations: %s", jsonFile.name)
+
+        for jsonFile in self._nwLangPath.glob("ai_*.json"):
+            dTrans = DictTranslator()
+            if dTrans.load_json(jsonFile):
+                nwApp.installTranslator(dTrans)
+                logger.debug("Loaded AI translations: %s", jsonFile.name)
 
     def loadConfig(self, splash: NSplashScreen | None = None) -> bool:
         """Load preferences from file and replace default settings."""
@@ -717,7 +756,7 @@ class Config:
         self.fmtPadBefore    = conf.rdStr(sec, "fmtpadbefore", self.fmtPadBefore)
         self.fmtPadAfter     = conf.rdStr(sec, "fmtpadafter", self.fmtPadAfter)
         self.fmtPadThin      = conf.rdBool(sec, "fmtpadthin", self.fmtPadThin)
-        self.spellLanguage   = conf.rdStr(sec, "spellcheck", self.spellLanguage)
+        self.spellLanguage   = _fixNone(conf.rdStr(sec, "spellcheck", self.spellLanguage))
         self.showTabsNSpaces = conf.rdBool(sec, "showtabsnspaces", self.showTabsNSpaces)
         self.showLineEndings = conf.rdBool(sec, "showlineendings", self.showLineEndings)
         self.showMultiSpaces = conf.rdBool(sec, "showmultispaces", self.showMultiSpaces)
@@ -759,7 +798,7 @@ class Config:
         sec = "AI"
         self._aiSettings = AISettings()
         if self._aiSettings:
-            self._aiSettings.provider_type = conf.rdStr(sec, "provider_type", self._aiSettings.provider_type)  # type: ignore
+            self._aiSettings.provider_type = cast(str, conf.rdStr(sec, "provider_type", self._aiSettings.provider_type))
             self._aiSettings.openai_api_key = conf.rdStr(sec, "openai_api_key", self._aiSettings.openai_api_key)
             self._aiSettings.openai_model = conf.rdStr(sec, "openai_model", self._aiSettings.openai_model)
             self._aiSettings.openai_base_url = conf.rdStr(sec, "openai_base_url", self._aiSettings.openai_base_url)
@@ -867,7 +906,7 @@ class Config:
             "fmtpadbefore":    str(self.fmtPadBefore),
             "fmtpadafter":     str(self.fmtPadAfter),
             "fmtpadthin":      str(self.fmtPadThin),
-            "spellcheck":      str(self.spellLanguage),
+            "spellcheck":      self.spellLanguage if self.spellLanguage else "",
             "showtabsnspaces": str(self.showTabsNSpaces),
             "showlineendings": str(self.showLineEndings),
             "showmultispaces": str(self.showMultiSpaces),

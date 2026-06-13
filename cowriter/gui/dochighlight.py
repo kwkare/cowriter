@@ -30,6 +30,8 @@ import re
 from time import time
 
 from PyQt6.QtCore import Qt
+import re
+
 from PyQt6.QtGui import (
     QBrush, QColor, QSyntaxHighlighter, QTextBlockUserData, QTextCharFormat,
     QTextDocument
@@ -46,6 +48,7 @@ from cowriter.types import QtFontBold, QtTextUserProperty
 logger = logging.getLogger(__name__)
 
 RX_URL = REGEX_PATTERNS.url
+RX_CN_TEXT = re.compile(r"[一-鿿㐀-䶿]{2,}")
 RX_WORDS = REGEX_PATTERNS.wordSplit
 RX_FMT_SC = REGEX_PATTERNS.shortcodePlain
 RX_FMT_SV = REGEX_PATTERNS.shortcodeValue
@@ -557,19 +560,32 @@ class TextBlockData(QTextBlockUserData):
 
     def spellCheck(self, utf16Map: list[int] | None) -> list[tuple[int, int, str]]:
         """Run the spell checker and cache the result, and return the
-        list of spell check errors.
+        list of spell check errors. Supports both Western and Chinese text.
         """
         spell = SHARED.spelling
-        if utf16Map:
-            self._spellErrors = [
-                (utf16Map[r.start(0)], utf16Map[r.end(0)], w)
-                for r in RX_WORDS.finditer(self._text, self._offset)
-                if (w := r.group(0)) and not (w.isnumeric() or w.isupper() or spell.checkWord(w))
-            ]
-        else:
-            self._spellErrors = [
-                (r.start(0), r.end(0), w)
-                for r in RX_WORDS.finditer(self._text, self._offset)
-                if (w := r.group(0)) and not (w.isnumeric() or w.isupper() or spell.checkWord(w))
-            ]
+        errors: list[tuple[int, int, str]] = []
+
+        # Western word checking
+        for r in RX_WORDS.finditer(self._text, self._offset):
+            w = r.group(0)
+            if w and not (w.isnumeric() or w.isupper() or spell.checkWord(w)):
+                if utf16Map:
+                    errors.append((utf16Map[r.start(0)], utf16Map[r.end(0)], w))
+                else:
+                    errors.append((r.start(0), r.end(0), w))
+
+        # Chinese text checking — RX_WORDS doesn't match Chinese due to 
+        from cowriter.core.cn_spellcheck import check_chinese
+        for r in RX_CN_TEXT.finditer(self._text, self._offset):
+            w = r.group(0)
+            cn_errors = check_chinese(w)
+            for start, end, suggestion in cn_errors:
+                abs_start = r.start(0) + start
+                abs_end = r.start(0) + end
+                if utf16Map:
+                    errors.append((utf16Map[abs_start], utf16Map[abs_end], suggestion))
+                else:
+                    errors.append((abs_start, abs_end, suggestion))
+
+        self._spellErrors = errors
         return self._spellErrors

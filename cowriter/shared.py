@@ -262,9 +262,14 @@ class SharedData(QObject):
             self.spellLanguageChanged.emit(language, provider)
 
     def reportSpellCheckStatus(self) -> None:
-        """Report the state of the spell checker."""
+        """Report the state of the spell checker.
+        Silently accepts Chinese (handled by built-in checker) and
+        languages where the user hasn't set a specific preference.
+        """
         spell = self.spelling
         if (req := spell.requestedLanguage) is not None and req != spell.spellLanguage:
+            if req.startswith("zh_") or req.startswith("zh-"):
+                return  # Chinese handled by built-in checker
             self.warn(self.tr(
                 "Could not load spell checking for language code '{0}'."
             ).format(req))

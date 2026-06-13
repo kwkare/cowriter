@@ -1,3 +1,35 @@
+# CoWriter Changelog
+
+CoWriter is a fork of [novelWriter](https://novelwriter.io) with AI-assisted writing features.
+
+## Version 26.2a0 [Unreleased]
+
+### AI Assistant
+
+* Added AI Assistant panel with multi-turn chat support for OpenAI, Anthropic, and Ollama providers.
+* Added streaming response support — responses appear incrementally as the model generates them.
+* Added five AI writing operations: Continue, Rewrite, Expand, Summarize, and Brainstorm.
+* Added customisable system prompts for Writer, Editor, and Chat roles.
+* Added project context integration — the AI receives the current document title, type, and content.
+* Added undo grouping for AI text insertions — revert the entire AI operation with a single Ctrl+Z.
+* Added theme-aware colour support in the chat panel.
+* Added typing indicator ("AI is thinking...") while waiting for the response.
+* Added ``AISettings`` configuration model with persistent settings for provider, API keys, model, and streaming preferences.
+* Added comprehensive test suite for AI modules (55 tests covering settings, providers, prompts, completion, and chat).
+
+### Code Quality
+
+* Removed all ``# type: ignore`` annotations from AI-related code. Private AI methods in ``GuiDocEditor``
+  renamed to public for type-safe cross-module access. Fixed ``closeEvent`` type annotation.
+* Added ``_safe_header()`` validation in all HTTP providers — catches non-ASCII API-key characters
+  with a clear error message instead of a cryptic ``UnicodeEncodeError``.
+
+### Included from novelWriter 26.1
+
+* All changes from novelWriter 26.1.
+
+---
+
 # novelWriter Changelog
 
 ## Version 26.1 [2026-04-26]

@@ -1,0 +1,67 @@
+{
+  "_comment": "CoWriter AI Chinese (Simplified) translations",
+  "GuiAIChatPanel": {
+    "AI Chat": "AI 聊天",
+    "Ask AI for writing help...": "向 AI 寻求写作帮助...",
+    "Send": "发送",
+    "Clear": "清除",
+    "AI is thinking...": "AI 思考中..."
+  },
+  "GuiAICompleteDialog": {
+    "AI Continue Writing": "AI 续写",
+    "AI Rewrite": "AI 改写",
+    "AI Expand": "AI 扩写",
+    "AI Summarize": "AI 摘要",
+    "AI Assistant": "AI 助手",
+    "Generate": "生成",
+    "Apply": "应用",
+    "Cancel": "取消",
+    "Generating...": "生成中..."
+  },
+  "GuiDocEditor": {
+    "AI Continue Writing": "AI 续写",
+    "AI Rewrite Selection": "AI 改写所选",
+    "AI Expand Selection": "AI 扩写所选",
+    "AI Summarize Selection": "AI 摘要所选",
+    "AI Chat...": "AI 聊天..."
+  },
+  "GuiPreferences": {
+    "OpenAI Settings": "OpenAI 设置",
+    "Anthropic Settings": "Anthropic 设置",
+    "Ollama Settings": "Ollama 设置",
+    "Generation": "生成参数",
+    "Options": "选项",
+    "Enable streaming": "启用流式响应",
+    "Show AI responses as they are generated.": "AI 生成回答时逐字显示。",
+    "Enable autocomplete": "启用自动补全",
+    "Show inline AI suggestions while typing. Requires restart.": "输入时显示 AI 建议。需重启生效。",
+    "Ollama (Local)": "Ollama（本地）",
+    "OpenAI (GPT-4o / etc.)": "OpenAI（GPT-4o 等）",
+    "Anthropic (Claude)": "Anthropic（Claude）",
+    "AI Assistant": "AI 助手",
+    "AI Provider": "AI 提供商",
+    "Select which AI backend to use for writing assistance.": "选择用于写作辅助的 AI 后端。",
+    "API Key": "API 密钥",
+    "Your OpenAI API key from platform.openai.com.": "来自 platform.openai.com 的 OpenAI API 密钥。",
+    "Model": "模型",
+    "e.g. gpt-4o, gpt-4o-mini, gpt-4-turbo": "如 gpt-4o, gpt-4o-mini, gpt-4-turbo",
+    "API Base URL": "API 基础 URL",
+    "For compatible APIs. Default: https://api.openai.com/v1": "兼容 API 地址。默认：https://api.openai.com/v1",
+    "Your Anthropic API key from console.anthropic.com.": "来自 console.anthropic.com 的 Anthropic API 密钥。",
+    "e.g. claude-3-5-sonnet-20241022, claude-3-opus": "如 claude-3-5-sonnet-20241022, claude-3-opus",
+    "e.g. qwen2.5:7b, llama3.1:8b, mistral:7b": "如 qwen2.5:7b, llama3.1:8b, mistral:7b",
+    "Default: http://localhost:11434": "默认：http://localhost:11434",
+    "Temperature": "温度",
+    "Controls randomness. Lower = more focused, higher = more creative.": "控制随机性。越低越聚焦，越高越有创意。",
+    "Max Tokens": "最大令牌数",
+    "Maximum length of AI responses.": "AI 回答的最大长度。"
+  },
+  "MainMenu": {
+    "&AI": "AI(&A)",
+    "Continue Writing": "续写",
+    "Rewrite Selection": "改写所选",
+    "Expand Selection": "扩写所选",
+    "Summarize Selection": "摘要所选",
+    "AI Chat...": "AI 聊天..."
+  }
+}

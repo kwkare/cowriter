@@ -14,8 +14,12 @@
 - **续写**（Continue）：在光标处让 AI 继续写出下文
 - **改写**（Rewrite）：选中文本 → AI 润色/重写
 - **扩写**（Expand）：把简略的描述展开为细腻的段落
-- **AI 聊天**（AI Chat）：侧边栏 AI 对话窗口，边聊边写
-- **头脑风暴**：根据大纲/情节生成创意建议
+- **摘要**（Summarize）：用 AI 提取选中内容的摘要
+- **AI 聊天**（AI Chat）：侧边栏 AI 对话窗口，支持多轮对话
+- **头脑风暴**（Brainstorm）：根据大纲/情节生成创意建议
+- **流式响应**：AI 回答逐字实时显示，无需等待
+- **一键撤销**：Ctrl+Z 可撤销整个 AI 插入的内容
+- **上下文感知**：AI 能感知当前文档标题、类型和内容
 
 ### 🔌 多模型支持
 | 模型 | 类型 | 特点 |
@@ -68,8 +72,10 @@ python CoWriter.py
 1. 启动 CoWriter
 2. 进入 **Preferences → AI Assistant**
 3. 选择 Provider（OpenAI / Anthropic / Ollama）
-4. 填入 API Key（云端模型）或保持默认（本地 Ollama）
-5. 开始写作！🎉
+4. 填入 API Key（云端模型）或保持默认（本地 Ollama）  
+   *注意：API Key 必须是纯 ASCII 字符，请勿粘贴中文内容*
+5. 可选：勾选 **Enable Streaming** 以获得逐字实时响应
+6. 开始写作！🎉
 
 ---
 
@@ -102,6 +108,16 @@ CoWriter 是 [novelWriter](https://novelwriter.io) 的 **GPLv3 分支**。
 - **上游更新**：我们会定期从 novelWriter 合并更新
 
 ---
+
+## 测试
+
+```bash
+# 运行所有测试
+pdm run test
+
+# 仅运行 AI 模块测试
+pdm run pytest tests/test_ai/ -v
+```
 
 ## 许可证
 

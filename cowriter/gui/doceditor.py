@@ -1297,17 +1297,17 @@ class GuiDocEditor(QPlainTextEdit):
         self._aiMenu = qtAddMenu(ctxMenu, self.tr("AI Assistant"))
         if hasSelection:
             action = qtAddAction(self._aiMenu, self._trAIRewrite)
-            action.triggered.connect(qtLambda(self._aiRewriteSelected))
+            action.triggered.connect(qtLambda(self.aiRewriteSelected))
             action = qtAddAction(self._aiMenu, self._trAIExpand)
-            action.triggered.connect(qtLambda(self._aiExpandSelected))
+            action.triggered.connect(qtLambda(self.aiExpandSelected))
             action = qtAddAction(self._aiMenu, self._trAISummarize)
-            action.triggered.connect(qtLambda(self._aiSummarizeSelected))
+            action.triggered.connect(qtLambda(self.aiSummarizeSelected))
         else:
             action = qtAddAction(self._aiMenu, self._trAIContinue)
-            action.triggered.connect(qtLambda(self._aiContinue))
+            action.triggered.connect(qtLambda(self.aiContinue))
         self._aiMenu.addSeparator()
         action = qtAddAction(self._aiMenu, self._trAIChat)
-        action.triggered.connect(qtLambda(self._openAIChat))
+        action.triggered.connect(qtLambda(self.openAIChat))
         action = qtAddAction(ctxMenu, self._trSelectPara)
         action.triggered.connect(qtLambda(self._makePosSelection, QtSelectBlock, pos))
 
@@ -1350,50 +1350,56 @@ class GuiDocEditor(QPlainTextEdit):
     #  AI Actions
     ##
 
-    def _getSelectedText(self) -> str | None:
+    def aiGetSelectedText(self) -> str | None:
         """Get the currently selected text, if any."""
         cursor = self.textCursor()
         if cursor.hasSelection():
             return cursor.selectedText().replace("\u2029", "\n")
         return None
 
-    def _insertText(self, text: str) -> None:
-        """Replace selection or insert text at cursor."""
+    def aiInsertText(self, text: str) -> None:
+        """Replace selection or insert text at cursor.
+        The edit is wrapped in beginEditBlock/endEditBlock so the
+        entire AI operation can be undone with a single Ctrl+Z."""
         cursor = self.textCursor()
-        if cursor.hasSelection():
-            cursor.insertText(text)
-        else:
-            cursor.insertText(text)
-        self.setTextCursor(cursor)
+        cursor.beginEditBlock()
+        try:
+            if cursor.hasSelection():
+                cursor.insertText(text)
+            else:
+                cursor.insertText(text)
+            self.setTextCursor(cursor)
+        finally:
+            cursor.endEditBlock()
 
-    def _aiRewriteSelected(self) -> None:
+    def aiRewriteSelected(self) -> None:
         """AI Rewrite the selected text."""
-        text = self._getSelectedText()
+        text = self.aiGetSelectedText()
         if text:
             from cowriter.gui.aichat import GuiAICompleteDialog
             dlg = GuiAICompleteDialog(self, "rewrite", text)
-            dlg.resultReady.connect(self._insertText)
+            dlg.resultReady.connect(self.aiInsertText)
             dlg.open()
 
-    def _aiExpandSelected(self) -> None:
+    def aiExpandSelected(self) -> None:
         """AI Expand the selected text."""
-        text = self._getSelectedText()
+        text = self.aiGetSelectedText()
         if text:
             from cowriter.gui.aichat import GuiAICompleteDialog
             dlg = GuiAICompleteDialog(self, "expand", text)
-            dlg.resultReady.connect(self._insertText)
+            dlg.resultReady.connect(self.aiInsertText)
             dlg.open()
 
-    def _aiSummarizeSelected(self) -> None:
+    def aiSummarizeSelected(self) -> None:
         """AI Summarize the selected text."""
-        text = self._getSelectedText()
+        text = self.aiGetSelectedText()
         if text:
             from cowriter.gui.aichat import GuiAICompleteDialog
             dlg = GuiAICompleteDialog(self, "summarize", text)
-            dlg.resultReady.connect(self._insertText)
+            dlg.resultReady.connect(self.aiInsertText)
             dlg.open()
 
-    def _aiContinue(self) -> None:
+    def aiContinue(self) -> None:
         """AI Continue writing from cursor position."""
         cursor = self.textCursor()
         cursor.movePosition(QtMoveLeft, QtKeepAnchor, 500)
@@ -1401,10 +1407,10 @@ class GuiDocEditor(QPlainTextEdit):
         if text_before:
             from cowriter.gui.aichat import GuiAICompleteDialog
             dlg = GuiAICompleteDialog(self, "continue", text_before)
-            dlg.resultReady.connect(self._insertText)
+            dlg.resultReady.connect(self.aiInsertText)
             dlg.open()
 
-    def _openAIChat(self) -> None:
+    def openAIChat(self) -> None:
         """Open the AI chat panel."""
         from cowriter.gui.aichat import GuiAIChatPanel
         for child in self.children():

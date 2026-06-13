@@ -7,7 +7,7 @@ Configuration model for AI provider settings.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Literal
+from typing import Literal, cast
 
 
 ProviderType = Literal["openai", "anthropic", "ollama"]
@@ -62,7 +62,7 @@ class AISettings:
     def from_dict(cls, data: dict[str, object]) -> AISettings:
         """Deserialize settings from a dictionary."""
         return cls(
-            provider_type=str(data.get("provider_type", "ollama")),  # type: ignore
+            provider_type=cast(str, data.get("provider_type", "ollama")),
             openai_api_key=str(data.get("openai_api_key", "")),
             openai_model=str(data.get("openai_model", "gpt-4o")),
             openai_base_url=str(data.get("openai_base_url", "https://api.openai.com/v1")),

@@ -53,14 +53,15 @@ class AIChatSession:
     async def stream_send(
         self, message: str
     ) -> AsyncIterator[str]:
-        """Send a message and stream the response."""
+        """Send a message and stream the response.
+        Uses stream_chat to preserve multi-turn conversation history."""
         context = self._context
         prompt = prompt_chat(context, message) if context else message
         self.add_message("user", prompt)
 
         collected = ""
-        async for chunk in self._provider.stream_complete(
-            prompt, system=WRITER_SYSTEM_PROMPT
+        async for chunk in self._provider.stream_chat(
+            self._messages, system=WRITER_SYSTEM_PROMPT
         ):
             collected += chunk
             yield chunk

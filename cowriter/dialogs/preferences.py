@@ -891,9 +891,9 @@ class GuiPreferences(NDialog):
         # AI Provider
         self.aiProvider = NComboBox(self)
         self.aiProvider.setMinimumWidth(200)
-        self.aiProvider.addItem("Ollama (Local)", "ollama")
-        self.aiProvider.addItem("OpenAI (GPT-4o / etc.)", "openai")
-        self.aiProvider.addItem("Anthropic (Claude)", "anthropic")
+        self.aiProvider.addItem(self.tr("Ollama (Local)"), "ollama")
+        self.aiProvider.addItem(self.tr("OpenAI (GPT-4o / etc.)"), "openai")
+        self.aiProvider.addItem(self.tr("Anthropic (Claude)"), "anthropic")
         self.aiProvider.setCurrentData(CONFIG.aiSettings.provider_type, "ollama")
 
         self.mainForm.addRow(

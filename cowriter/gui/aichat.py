@@ -11,6 +11,7 @@ import logging
 from typing import TYPE_CHECKING
 
 from PyQt6.QtCore import QThread, pyqtSignal, pyqtSlot
+from PyQt6.QtGui import QCloseEvent
 from PyQt6.QtWidgets import (
     QApplication, QDialogButtonBox, QHBoxLayout, QPlainTextEdit, QPushButton,
     QScrollArea, QTextBrowser, QVBoxLayout, QWidget
@@ -37,27 +38,43 @@ class AIWorker(QThread):
     streamChunk = pyqtSignal(str)
     finished = pyqtSignal()
 
-    def __init__(self, session: AIChatSession, message: str) -> None:
+    def __init__(self, session: AIChatSession, message: str,
+                 use_streaming: bool = True) -> None:
         super().__init__()
         self._session = session
         self._message = message
+        self._use_streaming = use_streaming
         self._running = True
 
     def run(self) -> None:
-        """Run the AI request in a thread."""
+        """Run the AI request in a thread.
+        Uses streaming when available (chunk-by-chunk via streamChunk signal).
+        Falls back to blocking send()."""
         import asyncio
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         try:
-            response = loop.run_until_complete(
-                self._session.send(self._message)
-            )
-            self.responseReady.emit(response)
+            if self._use_streaming:
+                self._run_stream(loop)
+            else:
+                response = loop.run_until_complete(
+                    self._session.send(self._message)
+                )
+                self.responseReady.emit(response)
         except Exception as exc:
             self.responseReady.emit(f"Error: {exc}")
         finally:
             loop.close()
             self.finished.emit()
+
+    def _run_stream(self, loop) -> None:
+        """Run streaming request, emitting chunks as they arrive."""
+        async def stream():
+            async for chunk in self._session.stream_send(self._message):
+                if not self._running:
+                    break
+                self.streamChunk.emit(chunk)
+        loop.run_until_complete(stream())
 
     def stop(self) -> None:
         """Stop the worker."""
@@ -72,7 +89,7 @@ class GuiAIChatPanel(NNonBlockingDialog):
 
         logger.debug("Create: GuiAIChatPanel")
         self.setObjectName("GuiAIChatPanel")
-        self.setWindowTitle("AI Chat")
+        self.setWindowTitle(self.tr("AI Chat"))
 
         self._settings: AISettings = CONFIG.aiSettings
         self._session: AIChatSession | None = None
@@ -133,7 +150,9 @@ class GuiAIChatPanel(NNonBlockingDialog):
         return self._session
 
     def _updateContext(self) -> None:
-        """Update context from current project."""
+        """Update context from current project.
+        Includes project name, author, current document info,
+        and novel structure when available."""
         if not self._session:
             return
         project = SHARED.project
@@ -141,6 +160,21 @@ class GuiAIChatPanel(NNonBlockingDialog):
             context = []
             context.append(f"Project: {project.data.name}")
             context.append(f"Author: {project.data.author}")
+            # Add current document info if editor is active
+            try:
+                from cowriter.enum import nwItemClass
+                editor = SHARED._gui.docEditor
+                if editor and editor.docHandle:
+                    item = project.tree[editor.docHandle]
+                    if item:
+                        context.append(f"Current section: {item.itemName}")
+                        context.append(f"Section type: {item.itemClass.name}")
+                        # Get a brief outline of the current document
+                        text = editor.toPlainText()[:500]
+                        if text:
+                            context.append(f"Current text:\n{text}...")
+            except Exception:
+                pass  # Best-effort context enrichment
             self._session.set_context("\n".join(context))
 
     def _sendMessage(self) -> None:
@@ -158,11 +192,16 @@ class GuiAIChatPanel(NNonBlockingDialog):
             f'<p>{message}</p>'
         )
 
-        # Send to AI
+        # Send to AI (streaming when enabled)
         try:
             session = self._ensureSession()
-            self._worker = AIWorker(session, message)
-            self._worker.responseReady.connect(self._onResponse)
+            use_stream = CONFIG.aiSettings.enable_streaming
+            self._worker = AIWorker(session, message,
+                                     use_streaming=use_stream)
+            if use_stream:
+                self._worker.streamChunk.connect(self._onStreamChunk)
+            else:
+                self._worker.responseReady.connect(self._onResponse)
             self._worker.finished.connect(self._onWorkerFinished)
             self._worker.start()
         except Exception as exc:
@@ -173,11 +212,41 @@ class GuiAIChatPanel(NNonBlockingDialog):
 
     @pyqtSlot(str)
     def _onResponse(self, response: str) -> None:
-        """Handle AI response."""
+        """Handle complete AI response (non-streaming fallback)."""
         self.chatDisplay.append(
             f'<p style="color: #44aa44;"><b>AI:</b></p>'
             f'<p>{response}</p>'
         )
+        # Scroll to bottom
+        scrollbar = self.chatDisplay.verticalScrollBar()
+        if scrollbar:
+            scrollbar.setValue(scrollbar.maximum())
+
+    def _onStreamChunk(self, chunk: str) -> None:
+        """Handle a streaming chunk: append incrementally."""
+        if not hasattr(self, '_streamBuffer'):
+            self._streamBuffer = ""
+            self.chatDisplay.append(
+                f'<p style="color: #44aa44;"><b>AI:</b></p>'
+                f'<p id="ai-stream"></p>'
+            )
+        self._streamBuffer += chunk
+        # Update the streaming paragraph in-place
+        html = self.chatDisplay.toHtml()
+        # Simple approach: replace latest content
+        safe = chunk.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        # Use scrollArea append for simplicity
+        cursor = self.chatDisplay.textCursor()
+        cursor.movePosition(cursor.MoveOperation.End)
+        cursor.insertHtml(safe)
+        self.chatDisplay.ensureCursorVisible()
+
+    @pyqtSlot()
+    def _onWorkerFinished(self) -> None:
+        """Handle worker completion."""
+        self.sendButton.setEnabled(True)
+        self._streamBuffer = ""
+        self._worker = None
         # Scroll to bottom
         scrollbar = self.chatDisplay.verticalScrollBar()
         if scrollbar:
@@ -196,12 +265,12 @@ class GuiAIChatPanel(NNonBlockingDialog):
             self._session.clear()
         self._session = None
 
-    def closeEvent(self, event: object) -> None:
+    def closeEvent(self, event: QCloseEvent) -> None:
         """Clean up on close."""
         if self._worker and self._worker.isRunning():
             self._worker.stop()
             self._worker.wait(2000)
-        super().closeEvent(event)  # type: ignore
+        super().closeEvent(event)
 
 
 class GuiAICompleteDialog(NNonBlockingDialog):
@@ -336,13 +405,9 @@ class _CompletionWorker(QThread):
             else:
                 result = "Unknown operation"
             self.resultReady.emit(result)
+        except ValueError as exc:
+            self.errorOccurred.emit(str(exc), "")
         except Exception:
             import traceback
             tb = traceback.format_exc()
-            error_msg = str(tb)
-            try:
-                error_msg.encode("utf-8")
-            except (UnicodeEncodeError, UnicodeDecodeError):
-                error_msg = error_msg.encode("utf-8", errors="replace").decode("utf-8")
-            self.errorOccurred.emit(error_msg, tb)
-
+            self.errorOccurred.emit(tb, "")

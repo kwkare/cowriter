@@ -13,6 +13,22 @@ from typing import AsyncIterator, Protocol
 logger = logging.getLogger(__name__)
 
 
+def _safe_header(value: str) -> str:
+    """Validate that a header value is ASCII-encodable.
+    Raises ValueError with a clear message if not, instead of letting
+    httpx raise a cryptic UnicodeEncodeError."""
+    try:
+        value.encode("ascii")
+    except UnicodeEncodeError as exc:
+        raise ValueError(
+            "API key or header value contains non-ASCII characters.\n"
+            f"Offending characters at position {exc.start}-{exc.end}: "
+            f"{exc.object[exc.start:exc.end]!r}\n"
+            "Please check your API key in Preferences > AI Assistant."
+        ) from exc
+    return value
+
+
 class AIProvider(ABC):
     """Abstract base class for AI model providers."""
 
@@ -33,6 +49,18 @@ class AIProvider(ABC):
     ) -> str:
         """Send a chat conversation and return the full response."""
         ...
+
+    async def stream_chat(
+        self,
+        messages: list[dict[str, str]],
+        *,
+        system: str | None = None,
+        **kwargs: object,
+    ) -> AsyncIterator[str]:
+        """Stream a chat conversation response chunk by chunk.
+        Default: yields the full response as one chunk."""
+        result = await self.chat(messages, system=system, **kwargs)
+        yield result
 
     @property
     @abstractmethod
@@ -95,7 +123,7 @@ class OpenAIProvider(AIProvider):
         }
 
         headers = {
-            "Authorization": f"Bearer {self._api_key}",
+            "Authorization": f"Bearer {_safe_header(self._api_key)}",
             "Content-Type": "application/json",
         }
 
@@ -117,7 +145,7 @@ class OpenAIProvider(AIProvider):
         import httpx
 
         headers = {
-            "Authorization": f"Bearer {self._api_key}",
+            "Authorization": f"Bearer {_safe_header(self._api_key)}",
             "Content-Type": "application/json",
         }
         messages: list[dict[str, str]] = []
@@ -167,7 +195,7 @@ class OpenAIProvider(AIProvider):
         import httpx
 
         headers = {
-            "Authorization": f"Bearer {self._api_key}",
+            "Authorization": f"Bearer {_safe_header(self._api_key)}",
             "Content-Type": "application/json",
         }
         full_messages: list[dict[str, str]] = []
@@ -192,6 +220,56 @@ class OpenAIProvider(AIProvider):
             response.raise_for_status()
             data = response.json()
             return str(data["choices"][0]["message"]["content"])
+
+    async def stream_chat(
+        self,
+        messages: list[dict[str, str]],
+        *,
+        system: str | None = None,
+        **kwargs: object,
+    ) -> AsyncIterator[str]:
+        """Stream chat response chunk by chunk from OpenAI-compatible API."""
+        import httpx
+        import json
+
+        headers = {
+            "Authorization": f"Bearer {_safe_header(self._api_key)}",
+            "Content-Type": "application/json",
+        }
+        full_messages: list[dict[str, str]] = []
+        if system:
+            full_messages.append({"role": "system", "content": system})
+        full_messages.extend(messages)
+
+        payload: dict[str, object] = {
+            "model": self._model,
+            "messages": full_messages,
+            "stream": True,
+            **self._kwargs,
+            **kwargs,
+        }
+
+        async with httpx.AsyncClient() as client:
+            async with client.stream(
+                "POST",
+                f"{self._base_url}/chat/completions",
+                headers=headers,
+                json=payload,
+                timeout=120.0,
+            ) as response:
+                response.raise_for_status()
+                async for line in response.aiter_lines():
+                    if line.startswith("data: "):
+                        chunk = line[6:]
+                        if chunk.strip() == "[DONE]":
+                            break
+                        try:
+                            data = json.loads(chunk)
+                            delta = data.get("choices", [{}])[0].get("delta", {})
+                            if text := delta.get("content"):
+                                yield text
+                        except json.JSONDecodeError:
+                            continue
 
     @classmethod
     def from_settings(cls, settings: dict[str, object]) -> OpenAIProvider:
@@ -242,7 +320,7 @@ class AnthropicProvider(AIProvider):
             payload["system"] = system
 
         headers = {
-            "x-api-key": self._api_key,
+            "x-api-key": _safe_header(self._api_key),
             "anthropic-version": "2023-06-01",
         }
 
@@ -263,7 +341,7 @@ class AnthropicProvider(AIProvider):
         import httpx
 
         headers = {
-            "x-api-key": self._api_key,
+            "x-api-key": _safe_header(self._api_key),
             "anthropic-version": "2023-06-01",
             "Content-Type": "application/json",
         }
@@ -311,7 +389,7 @@ class AnthropicProvider(AIProvider):
         import httpx
 
         headers = {
-            "x-api-key": self._api_key,
+            "x-api-key": _safe_header(self._api_key),
             "anthropic-version": "2023-06-01",
             "Content-Type": "application/json",
         }
@@ -335,6 +413,54 @@ class AnthropicProvider(AIProvider):
             response.raise_for_status()
             data = response.json()
             return str(data["content"][0]["text"])
+
+    async def stream_chat(
+        self,
+        messages: list[dict[str, str]],
+        *,
+        system: str | None = None,
+        **kwargs: object,
+    ) -> AsyncIterator[str]:
+        """Stream chat response chunk by chunk from Anthropic API."""
+        import httpx
+        import json
+
+        headers = {
+            "x-api-key": _safe_header(self._api_key),
+            "anthropic-version": "2023-06-01",
+            "Content-Type": "application/json",
+        }
+        payload: dict[str, object] = {
+            "model": self._model,
+            "max_tokens": 4096,
+            "stream": True,
+            "messages": messages,
+            **self._kwargs,
+            **kwargs,
+        }
+        if system:
+            payload["system"] = system
+
+        async with httpx.AsyncClient() as client:
+            async with client.stream(
+                "POST",
+                "https://api.anthropic.com/v1/messages",
+                headers=headers,
+                json=payload,
+                timeout=120.0,
+            ) as response:
+                response.raise_for_status()
+                async for line in response.aiter_lines():
+                    if line.startswith("data: "):
+                        chunk = line[6:]
+                        try:
+                            data = json.loads(chunk)
+                            if data.get("type") == "content_block_delta":
+                                delta = data.get("delta", {})
+                                if text := delta.get("text"):
+                                    yield text
+                        except json.JSONDecodeError:
+                            continue
 
     @classmethod
     def from_settings(cls, settings: dict[str, object]) -> AnthropicProvider:
@@ -458,6 +584,46 @@ class OllamaProvider(AIProvider):
             response.raise_for_status()
             data = response.json()
             return str(data["message"]["content"])
+
+    async def stream_chat(
+        self,
+        messages: list[dict[str, str]],
+        *,
+        system: str | None = None,
+        **kwargs: object,
+    ) -> AsyncIterator[str]:
+        """Stream chat response chunk by chunk from Ollama."""
+        import httpx
+        import json
+
+        payload: dict[str, object] = {
+            "model": self._model,
+            "messages": messages,
+            "stream": True,
+            **self._kwargs,
+            **kwargs,
+        }
+        if system:
+            payload["system"] = system
+
+        async with httpx.AsyncClient() as client:
+            async with client.stream(
+                "POST",
+                f"{self._base_url}/api/chat",
+                json=payload,
+                timeout=300.0,
+            ) as response:
+                response.raise_for_status()
+                async for line in response.aiter_lines():
+                    if line.strip():
+                        try:
+                            data = json.loads(line)
+                            if text := data.get("message", {}).get("content"):
+                                yield text
+                            if data.get("done"):
+                                break
+                        except json.JSONDecodeError:
+                            continue
 
     @classmethod
     def from_settings(cls, settings: dict[str, object]) -> OllamaProvider:

@@ -807,39 +807,39 @@ class GuiMain(QMainWindow):
 
     def _getEditorSelectedText(self) -> str | None:
         """Get selected text from the editor if any."""
-        return self.docEditor._getSelectedText()  # type: ignore
+        return self.docEditor.aiGetSelectedText()
 
     def _showAICompleteDialog(self, operation: str, text: str) -> None:
         """Show AI completion dialog."""
         if text:
             dlg = GuiAICompleteDialog(self, operation, text)
-            dlg.resultReady.connect(self.docEditor._insertText)  # type: ignore
+            dlg.resultReady.connect(self.docEditor.aiInsertText)
             dlg.open()
 
     @pyqtSlot()
     def showAIContinue(self) -> None:
         """Trigger AI continue from editor."""
-        self.docEditor._aiContinue()  # type: ignore
+        self.docEditor.aiContinue()
 
     @pyqtSlot()
     def showAIRewrite(self) -> None:
         """Trigger AI rewrite on selected text."""
-        self.docEditor._aiRewriteSelected()  # type: ignore
+        self.docEditor.aiRewriteSelected()
 
     @pyqtSlot()
     def showAIExpand(self) -> None:
         """Trigger AI expand on selected text."""
-        self.docEditor._aiExpandSelected()  # type: ignore
+        self.docEditor.aiExpandSelected()
 
     @pyqtSlot()
     def showAISummarize(self) -> None:
         """Trigger AI summarize on selected text."""
-        self.docEditor._aiSummarizeSelected()  # type: ignore
+        self.docEditor.aiSummarizeSelected()
 
     @pyqtSlot()
     def showAIChatPanel(self) -> None:
         """Open the AI chat panel."""
-        self.docEditor._openAIChat()  # type: ignore
+        self.docEditor.openAIChat()
 
     @pyqtSlot()
     def showAboutQtDialog(self) -> None:
