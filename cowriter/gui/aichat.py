@@ -16,6 +16,7 @@ from PyQt6.QtWidgets import (
     QScrollArea, QTextBrowser, QVBoxLayout, QWidget
 )
 from cowriter import CONFIG, SHARED
+from cowriter.ai.chat import AIChatSession
 from cowriter.ai.completion import AICompletion
 from cowriter.ai.provider import create_provider
 from cowriter.ai.settings import AISettings
