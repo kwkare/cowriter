@@ -880,6 +880,136 @@ class GuiPreferences(NDialog):
             button=self.btnDQuoteClose
         )
 
+        # AI Assistant
+        # =============
+
+        title = self.tr("AI Assistant")
+        section += 1
+        self.sidebar.addButton(title, section)
+        self.mainForm.addGroupLabel(title, section)
+
+        # AI Provider
+        self.aiProvider = NComboBox(self)
+        self.aiProvider.setMinimumWidth(200)
+        self.aiProvider.addItem("Ollama (Local)", "ollama")
+        self.aiProvider.addItem("OpenAI (GPT-4o / etc.)", "openai")
+        self.aiProvider.addItem("Anthropic (Claude)", "anthropic")
+        self.aiProvider.setCurrentData(CONFIG.aiSettings.provider_type, "ollama")
+        self.aiProvider.currentIndexChanged.connect(self._toggleAIProvider)
+
+        self.mainForm.addRow(
+            self.tr("AI Provider"), self.aiProvider,
+            self.tr("Select which AI backend to use for writing assistance."),
+        )
+
+        # OpenAI Settings
+        self.mainForm.addGroupLabel(self.tr("OpenAI Settings"), section, indent=1)
+
+        self.aiOpenAIKey = QLineEdit(self)
+        self.aiOpenAIKey.setMinimumWidth(300)
+        self.aiOpenAIKey.setText(CONFIG.aiSettings.openai_api_key)
+        self.aiOpenAIKey.setEchoMode(QLineEdit.EchoMode.Password)
+        self.mainForm.addRow(
+            self.tr("API Key"), self.aiOpenAIKey,
+            self.tr("Your OpenAI API key from platform.openai.com."),
+        )
+
+        self.aiOpenAIModel = QLineEdit(self)
+        self.aiOpenAIModel.setMinimumWidth(200)
+        self.aiOpenAIModel.setText(CONFIG.aiSettings.openai_model)
+        self.mainForm.addRow(
+            self.tr("Model"), self.aiOpenAIModel,
+            self.tr("e.g. gpt-4o, gpt-4o-mini, gpt-4-turbo"),
+        )
+
+        self.aiOpenAIBase = QLineEdit(self)
+        self.aiOpenAIBase.setMinimumWidth(300)
+        self.aiOpenAIBase.setText(CONFIG.aiSettings.openai_base_url)
+        self.mainForm.addRow(
+            self.tr("API Base URL"), self.aiOpenAIBase,
+            self.tr("For compatible APIs. Default: https://api.openai.com/v1"),
+        )
+
+        # Anthropic Settings
+        self.mainForm.addGroupLabel(self.tr("Anthropic Settings"), section, indent=1)
+
+        self.aiAnthropicKey = QLineEdit(self)
+        self.aiAnthropicKey.setMinimumWidth(300)
+        self.aiAnthropicKey.setText(CONFIG.aiSettings.anthropic_api_key)
+        self.aiAnthropicKey.setEchoMode(QLineEdit.EchoMode.Password)
+        self.mainForm.addRow(
+            self.tr("API Key"), self.aiAnthropicKey,
+            self.tr("Your Anthropic API key from console.anthropic.com."),
+        )
+
+        self.aiAnthropicModel = QLineEdit(self)
+        self.aiAnthropicModel.setMinimumWidth(200)
+        self.aiAnthropicModel.setText(CONFIG.aiSettings.anthropic_model)
+        self.mainForm.addRow(
+            self.tr("Model"), self.aiAnthropicModel,
+            self.tr("e.g. claude-3-5-sonnet-20241022, claude-3-opus"),
+        )
+
+        # Ollama Settings
+        self.mainForm.addGroupLabel(self.tr("Ollama Settings"), section, indent=1)
+
+        self.aiOllamaModel = QLineEdit(self)
+        self.aiOllamaModel.setMinimumWidth(200)
+        self.aiOllamaModel.setText(CONFIG.aiSettings.ollama_model)
+        self.mainForm.addRow(
+            self.tr("Model"), self.aiOllamaModel,
+            self.tr("e.g. qwen2.5:7b, llama3.1:8b, mistral:7b"),
+        )
+
+        self.aiOllamaBase = QLineEdit(self)
+        self.aiOllamaBase.setMinimumWidth(300)
+        self.aiOllamaBase.setText(CONFIG.aiSettings.ollama_base_url)
+        self.mainForm.addRow(
+            self.tr("API Base URL"), self.aiOllamaBase,
+            self.tr("Default: http://localhost:11434"),
+        )
+
+        # Generation Parameters
+        self.mainForm.addGroupLabel(self.tr("Generation"), section, indent=1)
+
+        self.aiTemperature = NDoubleSpinBox(self)
+        self.aiTemperature.setMinimumWidth(100)
+        self.aiTemperature.setDecimals(1)
+        self.aiTemperature.setRange(0.0, 2.0)
+        self.aiTemperature.setSingleStep(0.1)
+        self.aiTemperature.setValue(CONFIG.aiSettings.temperature)
+        self.mainForm.addRow(
+            self.tr("Temperature"), self.aiTemperature,
+            self.tr("Controls randomness. Lower = more focused, higher = more creative."),
+        )
+
+        self.aiMaxTokens = NSpinBox(self)
+        self.aiMaxTokens.setMinimumWidth(100)
+        self.aiMaxTokens.setRange(128, 32768)
+        self.aiMaxTokens.setSingleStep(256)
+        self.aiMaxTokens.setValue(CONFIG.aiSettings.max_tokens)
+        self.mainForm.addRow(
+            self.tr("Max Tokens"), self.aiMaxTokens,
+            self.tr("Maximum length of AI responses."),
+        )
+
+        # Feature Toggles
+        self.mainForm.addGroupLabel(self.tr("Options"), section, indent=1)
+
+        self.aiStreaming = NSwitch(self)
+        self.aiStreaming.setChecked(CONFIG.aiSettings.enable_streaming)
+        self.mainForm.addRow(
+            self.tr("Enable streaming"), self.aiStreaming,
+            self.tr("Show AI responses as they are generated."),
+        )
+
+        self.aiAutocomplete = NSwitch(self)
+        self.aiAutocomplete.setChecked(CONFIG.aiSettings.enable_autocomplete)
+        self.mainForm.addRow(
+            self.tr("Enable autocomplete"), self.aiAutocomplete,
+            self.tr("Show inline AI suggestions while typing. Requires restart."),
+        )
+
         # Features
         # ========
 
@@ -1010,7 +1140,6 @@ class GuiPreferences(NDialog):
         if status:
             self.fmtDQuoteClose.setText(quote)
 
-    ##
     #  Internal Functions
     ##
 
@@ -1174,6 +1303,21 @@ class GuiPreferences(NDialog):
             ])
         self.vimMode.setChecked(vimMode)
         CONFIG.vimMode = vimMode
+
+        # AI Assistant
+        aiSettings = CONFIG.aiSettings
+        aiSettings.provider_type = self.aiProvider.currentData()
+        aiSettings.openai_api_key = self.aiOpenAIKey.text()
+        aiSettings.openai_model = self.aiOpenAIModel.text()
+        aiSettings.openai_base_url = self.aiOpenAIBase.text()
+        aiSettings.anthropic_api_key = self.aiAnthropicKey.text()
+        aiSettings.anthropic_model = self.aiAnthropicModel.text()
+        aiSettings.ollama_model = self.aiOllamaModel.text()
+        aiSettings.ollama_base_url = self.aiOllamaBase.text()
+        aiSettings.temperature = self.aiTemperature.value()
+        aiSettings.max_tokens = self.aiMaxTokens.value()
+        aiSettings.enable_streaming = self.aiStreaming.isChecked()
+        aiSettings.enable_autocomplete = self.aiAutocomplete.isChecked()
 
         # Finalise
         CONFIG.saveConfig()
