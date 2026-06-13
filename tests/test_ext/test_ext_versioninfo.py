@@ -26,9 +26,9 @@ import pytest
 
 from PyQt6.QtCore import QUrl
 
-from novelwriter import SHARED
-from novelwriter.constants import nwConst
-from novelwriter.extensions.versioninfo import VersionInfoWidget, _Retriever, _RetrieverSignal
+from cowriter import SHARED
+from cowriter.constants import nwConst
+from cowriter.extensions.versioninfo import VersionInfoWidget, _Retriever, _RetrieverSignal
 
 from tests.tools import SimpleDialog
 
@@ -89,24 +89,24 @@ def testExtVersionInfo_Main(qtbot, monkeypatch):
     dialog.show()
 
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.extensions.versioninfo.QDesktopServices", MockDesktopServices)
+        mp.setattr("cowriter.extensions.versioninfo.QDesktopServices", MockDesktopServices)
         version._processLink("#notes")
         assert MockDesktopServices.url == QUrl(nwConst.URL_RELEASES)
 
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.extensions.versioninfo.QDesktopServices", MockDesktopServices)
+        mp.setattr("cowriter.extensions.versioninfo.QDesktopServices", MockDesktopServices)
         version._processLink("#website")
         assert MockDesktopServices.url == QUrl(nwConst.URL_WEB)
 
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.extensions.versioninfo._Retriever", MockRetriever)
+        mp.setattr("cowriter.extensions.versioninfo._Retriever", MockRetriever)
         mp.setattr(SHARED, "runInThreadPool", lambda *a: None)
         version._processLink("#update")
         assert version._lblRelease.text() == "Latest Version: Checking ..."
 
     version._updateReleaseInfo("v2.0", "")
     assert version._lblRelease.text() == (
-        "Latest Version: 2.0 – Download from <a href='#website'>novelwriter.io</a>"
+        "Latest Version: 2.0 – Download from <a href='#website'>cowriter.example.com</a>"
     )
 
     version._updateReleaseInfo("", "")
@@ -123,7 +123,7 @@ def testExtVersionInfo_Retriever(qtbot, monkeypatch):
 
     # Valid Data
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.extensions.versioninfo.urlopen", lambda *a, **k: MockPayload())
+        mp.setattr("cowriter.extensions.versioninfo.urlopen", lambda *a, **k: MockPayload())
         with qtbot.waitSignal(task.signals.dataReady) as signal:
             task.run()
             assert signal.args == ["v1.0", ""]
@@ -133,14 +133,14 @@ def testExtVersionInfo_Retriever(qtbot, monkeypatch):
 
     # HTTP Error
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.extensions.versioninfo.urlopen", lambda *a, **k: MockHTTPError())
+        mp.setattr("cowriter.extensions.versioninfo.urlopen", lambda *a, **k: MockHTTPError())
         with qtbot.waitSignal(task.signals.dataReady) as signal:
             task.run()
             assert signal.args == ["", "Rate limit (HTTP 403)"]
 
     # Other Error
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.extensions.versioninfo.urlopen", lambda *a, **k: MockException())
+        mp.setattr("cowriter.extensions.versioninfo.urlopen", lambda *a, **k: MockException())
         with qtbot.waitSignal(task.signals.dataReady) as signal:
             task.run()
             assert signal.args == ["", "Oh noes!"]

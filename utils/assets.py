@@ -33,7 +33,7 @@ from utils.docs import buildPdfDocAssets
 
 def buildSampleZip(args: argparse.Namespace | None = None) -> None:
     """Bundle the sample project into a single zip file to be saved into
-    the novelwriter/assets folder for further bundling into builds.
+    the cowriter/assets folder for further bundling into builds.
     """
     print("")
     print("Building Sample ZIP File")
@@ -41,7 +41,7 @@ def buildSampleZip(args: argparse.Namespace | None = None) -> None:
     print("")
 
     srcSample = ROOT_DIR / "sample"
-    dstSample = ROOT_DIR / "novelwriter" / "assets" / "sample.zip"
+    dstSample = ROOT_DIR / "cowriter" / "assets" / "sample.zip"
 
     if srcSample.is_dir():
         dstSample.unlink(missing_ok=True)
@@ -75,7 +75,7 @@ def importI18nUpdates(args: argparse.Namespace) -> None:
         print("File not found ...")
         sys.exit(1)
 
-    dstPath = ROOT_DIR / "novelwriter" / "assets" / "i18n"
+    dstPath = ROOT_DIR / "cowriter" / "assets" / "i18n"
     srcPath = ROOT_DIR / "i18n"
 
     print(f"Loading file: {fileName}")
@@ -110,7 +110,7 @@ def updateTranslationSources(args: argparse.Namespace) -> None:
     print("Scanning Source Tree:")
     print("")
 
-    sources = list((ROOT_DIR / "novelwriter").glob("**/*.py"))
+    sources = list((ROOT_DIR / "cowriter").glob("**/*.py"))
     for source in sources:
         print(source.relative_to(ROOT_DIR))
 
@@ -164,7 +164,7 @@ def buildTranslationAssets(args: argparse.Namespace | None = None) -> None:
     print("")
 
     srcDir = ROOT_DIR / "i18n"
-    dstDir = ROOT_DIR / "novelwriter" / "assets" / "i18n"
+    dstDir = ROOT_DIR / "cowriter" / "assets" / "i18n"
 
     srcList = []
     for item in srcDir.iterdir():
@@ -204,9 +204,9 @@ def cleanBuiltAssets(args: argparse.Namespace | None = None) -> None:
     print("=====================")
     print("")
 
-    assets = [ROOT_DIR / "novelwriter" / "assets" / "sample.zip"]
-    assets.extend((ROOT_DIR / "novelwriter" / "assets").glob("manual*.pdf"))
-    assets.extend((ROOT_DIR / "novelwriter" / "assets" / "i18n").glob("*.qm"))
+    assets = [ROOT_DIR / "cowriter" / "assets" / "sample.zip"]
+    assets.extend((ROOT_DIR / "cowriter" / "assets").glob("manual*.pdf"))
+    assets.extend((ROOT_DIR / "cowriter" / "assets" / "i18n").glob("*.qm"))
     for asset in assets:
         if asset.is_file():
             asset.unlink()

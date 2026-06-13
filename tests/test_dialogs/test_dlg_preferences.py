@@ -26,14 +26,14 @@ from PyQt6.QtCore import QEvent, Qt
 from PyQt6.QtGui import QAction, QFont, QFontDatabase, QKeyEvent
 from PyQt6.QtWidgets import QFileDialog
 
-from novelwriter import CONFIG, SHARED
-from novelwriter.config import DEF_GUI_DARK, DEF_GUI_LIGHT, DEF_TREECOL
-from novelwriter.constants import nwUnicode
-from novelwriter.dialogs.preferences import GuiPreferences
-from novelwriter.dialogs.quotes import GuiQuoteSelect
-from novelwriter.extensions.modified import NFontDialog
-from novelwriter.gui.theme import ThemeEntry
-from novelwriter.types import QtModNone
+from cowriter import CONFIG, SHARED
+from cowriter.config import DEF_GUI_DARK, DEF_GUI_LIGHT, DEF_TREECOL
+from cowriter.constants import nwUnicode
+from cowriter.dialogs.preferences import GuiPreferences
+from cowriter.dialogs.quotes import GuiQuoteSelect
+from cowriter.extensions.modified import NFontDialog
+from cowriter.gui.theme import ThemeEntry
+from cowriter.types import QtModNone
 
 KEY_DELAY = 1
 

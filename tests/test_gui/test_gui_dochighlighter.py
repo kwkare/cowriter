@@ -24,11 +24,11 @@ import pytest
 
 from PyQt6.QtGui import QTextCharFormat, QTextCursor, QTextDocument
 
-from novelwriter import CONFIG, SHARED
-from novelwriter.core.item import NWItem
-from novelwriter.enum import nwItemClass, nwItemLayout, nwItemType, nwTheme
-from novelwriter.gui.dochighlight import BLOCK_META, BLOCK_TITLE, GuiDocHighlighter, TextBlockData
-from novelwriter.types import QtKeepAnchor
+from cowriter import CONFIG, SHARED
+from cowriter.core.item import NWItem
+from cowriter.enum import nwItemClass, nwItemLayout, nwItemType, nwTheme
+from cowriter.gui.dochighlight import BLOCK_META, BLOCK_TITLE, GuiDocHighlighter, TextBlockData
+from cowriter.types import QtKeepAnchor
 
 R_HANDLE = "3456789abcdef"
 T_HANDLE = "0123456789abc"

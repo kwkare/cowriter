@@ -64,7 +64,7 @@ def appImage(args: argparse.Namespace) -> None:
 
     # Set Up Folder
     bldDir = ROOT_DIR / "dist_appimage"
-    bldPkg = f"novelwriter-{pkgVers}-{mArch}"
+    bldPkg = f"cowriter-{pkgVers}-{mArch}"
     bldImg = f"{bldPkg}.AppImage"
     outDir = bldDir / bldPkg
     imgDir = bldDir / "appimage"
@@ -89,18 +89,18 @@ def appImage(args: argparse.Namespace) -> None:
     copyPackageFiles(outDir)
 
     # Write Metadata
-    writeFile(imgDir / "novelwriter.appdata.xml", appdataXml())
+    writeFile(imgDir / "cowriter.appdata.xml", appdataXml())
     writeFile(imgDir / "requirements.txt", str(outDir))
     writeFile(imgDir / "entrypoint.sh", (
         # f"export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${{APPDIR}}/usr/lib/{mArch}-linux-gnu/\n"
-        '{{ python-executable }} -sE ${APPDIR}/opt/python{{ python-version }}/bin/novelwriter "$@"'
+        '{{ python-executable }} -sE ${APPDIR}/opt/python{{ python-version }}/bin/cowriter "$@"'
     ))
 
-    shutil.copyfile(SETUP_DIR / "data" / "novelwriter.desktop", imgDir / "novelwriter.desktop")
-    print("Copied: novelwriter.desktop")
+    shutil.copyfile(SETUP_DIR / "data" / "cowriter.desktop", imgDir / "cowriter.desktop")
+    print("Copied: cowriter.desktop")
 
-    shutil.copyfile(SETUP_DIR / "icons" / "novelwriter.png", imgDir / "novelwriter.png")
-    print("Copied: novelwriter.png")
+    shutil.copyfile(SETUP_DIR / "icons" / "cowriter.png", imgDir / "cowriter.png")
+    print("Copied: cowriter.png")
 
     # Build AppDir
     systemCall([
@@ -123,7 +123,7 @@ def appImage(args: argparse.Namespace) -> None:
     env["ARCH"] = mArch
     systemCall([
         appToolExec, "--no-appstream", "--updateinformation",
-        f"gh-releases-zsync|vkbo|novelwriter|latest|novelwriter-*-{mArch}.AppImage.zsync",
+        f"gh-releases-zsync|vkbo|cowriter|latest|cowriter-*-{mArch}.AppImage.zsync",
         str(appDir), bldImg
     ], cwd=bldDir, env=env)
 

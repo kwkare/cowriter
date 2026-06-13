@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import pytest
 
-from novelwriter.text.counting import bodyTextCounter, preProcessText, standardCounter
+from cowriter.text.counting import bodyTextCounter, preProcessText, standardCounter
 
 
 @pytest.mark.core

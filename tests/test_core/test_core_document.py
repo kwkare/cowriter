@@ -22,9 +22,9 @@ from __future__ import annotations
 
 import pytest
 
-from novelwriter.core.document import NWDocument
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwItemClass, nwItemLayout
+from cowriter.core.document import NWDocument
+from cowriter.core.project import NWProject
+from cowriter.enum import nwItemClass, nwItemLayout
 
 from tests.mocked import causeOSError
 from tests.tools import MOCK_TIME, C, buildTestProject, readFile, writeFile
@@ -33,7 +33,7 @@ from tests.tools import MOCK_TIME, C, buildTestProject, readFile, writeFile
 @pytest.mark.core
 def testCoreDocument_LoadSave(monkeypatch, mockGUI, fncPath, mockRnd):
     """Test loading and saving a document with the NWDocument class."""
-    monkeypatch.setattr("novelwriter.core.document.time", lambda: MOCK_TIME)
+    monkeypatch.setattr("cowriter.core.document.time", lambda: MOCK_TIME)
 
     project = NWProject()
     mockRnd.reset()
@@ -59,7 +59,7 @@ def testCoreDocument_LoadSave(monkeypatch, mockGUI, fncPath, mockRnd):
 
     # No content path
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.storage.NWStorage.contentPath", property(lambda *a: None))
+        mp.setattr("cowriter.core.storage.NWStorage.contentPath", property(lambda *a: None))
         doc = NWDocument(project, C.hSceneDoc)
         assert doc.readDocument() is None
         assert doc.fileExists() is False
@@ -90,7 +90,7 @@ def testCoreDocument_LoadSave(monkeypatch, mockGUI, fncPath, mockRnd):
 
     # No content path
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.storage.NWStorage.contentPath", property(lambda *a: None))
+        mp.setattr("cowriter.core.storage.NWStorage.contentPath", property(lambda *a: None))
         doc = NWDocument(project, xHandle)
         assert doc.writeDocument("") is False
 
@@ -187,7 +187,7 @@ def testCoreDocument_LoadSave(monkeypatch, mockGUI, fncPath, mockRnd):
 
     # No content path
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.storage.NWStorage.contentPath", property(lambda *a: None))
+        mp.setattr("cowriter.core.storage.NWStorage.contentPath", property(lambda *a: None))
         doc = NWDocument(project, xHandle)
         assert doc.deleteDocument() is False
 
@@ -207,7 +207,7 @@ def testCoreDocument_LoadSave(monkeypatch, mockGUI, fncPath, mockRnd):
 @pytest.mark.core
 def testCoreDocument_Methods(monkeypatch, mockGUI, fncPath, mockRnd):
     """Test other methods of the NWDocument class."""
-    monkeypatch.setattr("novelwriter.core.document.time", lambda: MOCK_TIME)
+    monkeypatch.setattr("cowriter.core.document.time", lambda: MOCK_TIME)
 
     project = NWProject()
     mockRnd.reset()

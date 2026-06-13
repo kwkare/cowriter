@@ -28,7 +28,7 @@ from pathlib import Path
 
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QWidget
 
-from novelwriter import logger
+from cowriter import logger
 
 XML_IGNORE = ("<novelWriterXML", "<project")
 ODT_IGNORE = ("<meta:generator", "<meta:creation-date", "<dc:date", "<meta:editing")
@@ -165,15 +165,15 @@ def buildTestProject(obj: object, projPath: Path) -> None:
     """Build a standard test project in projPath using the project
     object as the parent.
     """
-    from novelwriter.core.project import NWProject
-    from novelwriter.enum import nwItemClass
-    from novelwriter.guimain import GuiMain
+    from cowriter.core.project import NWProject
+    from cowriter.enum import nwItemClass
+    from cowriter.guimain import GuiMain
 
     if isinstance(obj, NWProject):
         nwGUI = None
         project = obj
     elif isinstance(obj, GuiMain):
-        from novelwriter import SHARED
+        from cowriter import SHARED
         nwGUI = obj
         project = SHARED.project
     else:

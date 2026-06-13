@@ -22,11 +22,11 @@ from __future__ import annotations
 
 import pytest
 
-from novelwriter.constants import nwHeadFmt
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwComment
-from novelwriter.formats.shared import BlockFmt, BlockTyp
-from novelwriter.formats.tomarkdown import ToMarkdown
+from cowriter.constants import nwHeadFmt
+from cowriter.core.project import NWProject
+from cowriter.enum import nwComment
+from cowriter.formats.shared import BlockFmt, BlockTyp
+from cowriter.formats.tomarkdown import ToMarkdown
 
 
 @pytest.mark.core

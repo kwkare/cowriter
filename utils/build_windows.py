@@ -54,7 +54,7 @@ def prepareCode(outDir: Path) -> None:
         shutil.copyfile(item, outDir / item.name)
         print(f"Copied: {item} > {outDir / item.name}")
 
-    compileall.compile_dir(outDir / "novelwriter")
+    compileall.compile_dir(outDir / "cowriter")
 
     print("Done")
     print("")
@@ -129,8 +129,8 @@ def main(args: argparse.Namespace) -> None:
         'sys.path.insert(0, os.path.join(os.curdir, "lib"))\n'
         "\n"
         'if __name__ == "__main__":\n'
-        "    import novelwriter\n"
-        "    novelwriter.main(sys.argv[1:])\n"
+        "    import cowriter\n"
+        "    cowriter.main(sys.argv[1:])\n"
     ))
     print("Done")
     print("")

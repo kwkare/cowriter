@@ -22,12 +22,12 @@ from __future__ import annotations
 
 import pytest
 
-from novelwriter import CONFIG
-from novelwriter.core.index import IndexCache, TagsIndex
-from novelwriter.core.indexdata import IndexHeading, IndexNode
-from novelwriter.core.item import NWItem
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwComment
+from cowriter import CONFIG
+from cowriter.core.index import IndexCache, TagsIndex
+from cowriter.core.indexdata import IndexHeading, IndexNode
+from cowriter.core.item import NWItem
+from cowriter.core.project import NWProject
+from cowriter.enum import nwComment
 
 
 @pytest.mark.core

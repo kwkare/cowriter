@@ -26,8 +26,8 @@ from PyQt6.QtCore import QEvent, QObject, QPoint, QPointF, Qt
 from PyQt6.QtGui import QKeyEvent, QWheelEvent
 from PyQt6.QtWidgets import QWidget
 
-from novelwriter.extensions.eventfilters import WheelEventFilter
-from novelwriter.types import QtModNone, QtModShift
+from cowriter.extensions.eventfilters import WheelEventFilter
+from cowriter.types import QtModNone, QtModShift
 
 
 class MockWidget(QWidget):

@@ -24,9 +24,9 @@ import pytest
 
 from PyQt6.QtGui import QAction
 
-from novelwriter import SHARED
-from novelwriter.enum import nwDocInsert
-from novelwriter.tools.lipsum import GuiLipsum
+from cowriter import SHARED
+from cowriter.enum import nwDocInsert
+from cowriter.tools.lipsum import GuiLipsum
 
 from tests.tools import C, buildTestProject
 

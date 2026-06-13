@@ -27,12 +27,12 @@ import pytest
 from PyQt6.QtGui import QAction, QDesktopServices, QTextBlock
 from PyQt6.QtWidgets import QFileDialog
 
-from novelwriter import CONFIG, SHARED
-from novelwriter.constants import nwKeyWords, nwShortcode, nwStats, nwUnicode
-from novelwriter.enum import nwDocAction, nwDocInsert
-from novelwriter.gui.doceditor import GuiDocEditor
-from novelwriter.shared import _GuiAlert
-from novelwriter.types import QtKeepAnchor, QtMoveRight, QtSelectWord
+from cowriter import CONFIG, SHARED
+from cowriter.constants import nwKeyWords, nwShortcode, nwStats, nwUnicode
+from cowriter.enum import nwDocAction, nwDocInsert
+from cowriter.gui.doceditor import GuiDocEditor
+from cowriter.shared import _GuiAlert
+from cowriter.types import QtKeepAnchor, QtMoveRight, QtSelectWord
 
 from tests.tools import C, buildTestProject, writeFile
 

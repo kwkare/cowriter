@@ -29,10 +29,10 @@ import pytest
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QFileDialog, QWidget
 
-from novelwriter import CONFIG, SHARED
-from novelwriter.constants import nwKeyWords
-from novelwriter.enum import nwItemClass, nwOutline, nwView
-from novelwriter.types import QtScrollAlwaysOff, QtScrollAsNeeded
+from cowriter import CONFIG, SHARED
+from cowriter.constants import nwKeyWords
+from cowriter.enum import nwItemClass, nwOutline, nwView
+from cowriter.types import QtScrollAlwaysOff, QtScrollAsNeeded
 
 from tests.tools import buildTestProject, cmpFiles, writeFile
 

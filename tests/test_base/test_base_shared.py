@@ -30,8 +30,8 @@ from PyQt6.QtCore import QUrl
 from PyQt6.QtGui import QDesktopServices
 from PyQt6.QtWidgets import QFileDialog, QWidget
 
-from novelwriter.core.project import NWProject
-from novelwriter.shared import SharedData, _GuiAlert
+from cowriter.core.project import NWProject
+from cowriter.shared import SharedData, _GuiAlert
 
 from tests.mocked import MockGuiMain, MockTheme
 from tests.tools import buildTestProject

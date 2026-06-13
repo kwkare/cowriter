@@ -25,12 +25,12 @@ from zipfile import ZipFile
 
 import pytest
 
-from novelwriter import CONFIG, SHARED
-from novelwriter.constants import nwFiles
-from novelwriter.core.project import NWProject, NWProjectState
-from novelwriter.core.projectxml import ProjectXMLReader, ProjectXMLWriter, XMLReadState
-from novelwriter.enum import nwItemClass
-from novelwriter.shared import _GuiAlert
+from cowriter import CONFIG, SHARED
+from cowriter.constants import nwFiles
+from cowriter.core.project import NWProject, NWProjectState
+from cowriter.core.projectxml import ProjectXMLReader, ProjectXMLWriter, XMLReadState
+from cowriter.enum import nwItemClass
+from cowriter.shared import _GuiAlert
 
 from tests.mocked import causeOSError
 from tests.tools import XML_IGNORE, C, buildTestProject, cmpFiles
@@ -246,10 +246,10 @@ def testCoreProject_Open(monkeypatch, caplog, mockGUI, fncPath, mockRnd):
 
     # Fail getting xml reader
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.storage.NWStorage.getXmlReader", lambda *a: None)
+        mp.setattr("cowriter.core.storage.NWStorage.getXmlReader", lambda *a: None)
         assert project.openProject(fncPath, clearLock=True) is False
 
-    # Not a novelwriter XML file
+    # Not a cowriter XML file
     with monkeypatch.context() as mp:
         mp.setattr(ProjectXMLReader, "read", lambda *a: False)
         mp.setattr(ProjectXMLReader, "state", property(lambda *a: XMLReadState.NOT_NWX_FILE))
@@ -286,13 +286,13 @@ def testCoreProject_Open(monkeypatch, caplog, mockGUI, fncPath, mockRnd):
 
     # Fail checking items should still pass
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.tree.NWTree.checkConsistency", lambda *a: (1, 0))
+        mp.setattr("cowriter.core.tree.NWTree.checkConsistency", lambda *a: (1, 0))
         assert project.openProject(fncPath, clearLock=True) is True
 
     # Trigger an index rebuild
     with monkeypatch.context() as mp:
         mp.setattr(ProjectXMLReader, "state", property(lambda *a: XMLReadState.WAS_LEGACY))
-        mp.setattr("novelwriter.core.index.Index.loadIndex", lambda *a: True)
+        mp.setattr("cowriter.core.index.Index.loadIndex", lambda *a: True)
         project.index._indexBroken = True
         assert project.openProject(fncPath, clearLock=True) is True
         assert "The file format of your project is about to be" in SHARED.lastAlert[0]
@@ -314,7 +314,7 @@ def testCoreProject_Save(monkeypatch, mockGUI, mockRnd, fncPath):
 
     # Fail getting xml writer
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.storage.NWStorage.getXmlWriter", lambda *a: None)
+        mp.setattr("cowriter.core.storage.NWStorage.getXmlWriter", lambda *a: None)
         assert project.saveProject() is False
 
     # Fail writing
@@ -346,7 +346,7 @@ def testCoreProject_Methods(monkeypatch, mockGUI, fncPath, mockRnd):
     project.data.setEditTime(1234)
     project._session._start = 1600000000
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.project.time", lambda: 1600005600)
+        mp.setattr("cowriter.core.project.time", lambda: 1600005600)
         assert project.currentEditTime == 6834
 
     # Spell check

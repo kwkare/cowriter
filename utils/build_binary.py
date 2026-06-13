@@ -28,11 +28,11 @@ def runPyinstaller() -> None:
     import PyInstaller.__main__  # type: ignore
 
     build = ["novelWriter.py", "--clean", "--windowed", "--onedir", "--noconfirm"]
-    build += ["--name", "novelwriter"]
+    build += ["--name", "cowriter"]
     build += ["--workpath", "build_bin"]
     build += ["--distpath", "dist_bin"]
     build += ["--hidden-import", "pyenchant"]
-    build += ["--add-data", "novelwriter/assets:assets"]
+    build += ["--add-data", "cowriter/assets:assets"]
     PyInstaller.__main__.run(build)
 
 

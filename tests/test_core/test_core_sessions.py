@@ -25,9 +25,9 @@ from time import sleep
 
 import pytest
 
-from novelwriter.constants import nwFiles
-from novelwriter.core.project import NWProject
-from novelwriter.core.sessions import NWSessionLog
+from cowriter.constants import nwFiles
+from cowriter.core.project import NWProject
+from cowriter.core.sessions import NWSessionLog
 
 from tests.mocked import causeOSError
 from tests.tools import buildTestProject
@@ -94,7 +94,7 @@ def testCoreSessions_Main(monkeypatch, mockGUI, fncPath):
 
     # Make file path unresolvable, and try appending another record
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.storage.NWStorage.getMetaFile", lambda *a: None)
+        mp.setattr("cowriter.core.storage.NWStorage.getMetaFile", lambda *a: None)
         assert sessLog.appendSession(1.6) is False
     assert len(list(sessLog.iterRecords())) == 3
 
@@ -111,5 +111,5 @@ def testCoreSessions_Main(monkeypatch, mockGUI, fncPath):
 
     # Make file path unresolvable
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.storage.NWStorage.getMetaFile", lambda *a: None)
+        mp.setattr("cowriter.core.storage.NWStorage.getMetaFile", lambda *a: None)
         assert len(list(sessLog.iterRecords())) == 0

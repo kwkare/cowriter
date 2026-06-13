@@ -29,12 +29,12 @@ import pytest
 
 from PyQt6.QtGui import QColor
 
-from novelwriter.common import xmlIndent
-from novelwriter.constants import nwHeadFmt
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwComment
-from novelwriter.formats.shared import BlockFmt, BlockTyp, TextFmt
-from novelwriter.formats.toodt import ODTParagraphStyle, ODTTextStyle, ToOdt, XMLParagraph, _mkTag
+from cowriter.common import xmlIndent
+from cowriter.constants import nwHeadFmt
+from cowriter.core.project import NWProject
+from cowriter.enum import nwComment
+from cowriter.formats.shared import BlockFmt, BlockTyp, TextFmt
+from cowriter.formats.toodt import ODTParagraphStyle, ODTTextStyle, ToOdt, XMLParagraph, _mkTag
 
 from tests.tools import ODT_IGNORE, cmpFiles, xmlToText
 

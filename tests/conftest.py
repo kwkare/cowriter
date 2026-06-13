@@ -33,9 +33,9 @@ from PyQt6.QtWidgets import QMessageBox
 
 sys.path.insert(1, str(Path(__file__).parent.parent.absolute()))
 
-from novelwriter import CONFIG, SHARED
-from novelwriter.config import DEF_GUI_DARK, DEF_GUI_LIGHT
-from novelwriter.enum import nwTheme
+from cowriter import CONFIG, SHARED
+from cowriter.config import DEF_GUI_DARK, DEF_GUI_LIGHT
+from cowriter.enum import nwTheme
 
 from tests.mocked import MockGuiMain
 from tests.tools import cleanProject
@@ -84,8 +84,8 @@ def sessionFixture():
     _TMP_ROOT.mkdir()
     _TMP_CONF.mkdir()
     (_TMP_ROOT / "manual.pdf").touch()
-    (_SRC_ROOT / "novelwriter" / "assets"/ "manual.pdf").touch()
-    (_SRC_ROOT / "novelwriter" / "assets"/ "manual_fr.pdf").touch()
+    (_SRC_ROOT / "cowriter" / "assets"/ "manual.pdf").touch()
+    (_SRC_ROOT / "cowriter" / "assets"/ "manual_fr.pdf").touch()
 
 
 @pytest.fixture(scope="function", autouse=True)
@@ -102,7 +102,7 @@ def functionFixture(qtbot):
     CONFIG.__init__()  # noqa: PLC2801
     CONFIG.initConfig(confPath=_TMP_CONF, dataPath=_TMP_CONF)
     resetConfigVars()
-    logging.getLogger("novelwriter").setLevel(logging.INFO)
+    logging.getLogger("cowriter").setLevel(logging.INFO)
 
 
 ##
@@ -156,8 +156,8 @@ def projPath(fncPath):
 @pytest.fixture(scope="function")
 def mockGUI(qtbot, monkeypatch):
     """Create a mock instance of novelWriter's main GUI class."""
-    from novelwriter.gui.theme import GuiTheme
-    from novelwriter.shared import _GuiAlert
+    from cowriter.gui.theme import GuiTheme
+    from cowriter.shared import _GuiAlert
 
     monkeypatch.setattr(QMessageBox, "exec", lambda *a: None)
     monkeypatch.setattr(_GuiAlert, "exec", lambda *a: None)
@@ -182,9 +182,9 @@ def mockGUIwithTheme(mockGUI):
 @pytest.fixture(scope="function")
 def nwGUI(qtbot, monkeypatch, functionFixture):
     """Create an instance of the novelWriter GUI."""
-    from novelwriter.gui.theme import GuiTheme
-    from novelwriter.guimain import GuiMain
-    from novelwriter.shared import _GuiAlert
+    from cowriter.gui.theme import GuiTheme
+    from cowriter.guimain import GuiMain
+    from cowriter.shared import _GuiAlert
 
     monkeypatch.setattr(QMessageBox, "exec", lambda *a: None)
     monkeypatch.setattr(_GuiAlert, "exec", lambda *a: None)

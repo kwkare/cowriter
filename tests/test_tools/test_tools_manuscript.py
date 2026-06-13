@@ -31,12 +31,12 @@ from PyQt6.QtGui import QAction, QDesktopServices
 from PyQt6.QtPrintSupport import QPrintPreviewDialog
 from PyQt6.QtWidgets import QListWidgetItem
 
-from novelwriter import SHARED
-from novelwriter.constants import nwHeadFmt
-from novelwriter.core.buildsettings import BuildSettings
-from novelwriter.tools.manusbuild import GuiManuscriptBuild
-from novelwriter.tools.manuscript import GuiManuscript
-from novelwriter.tools.manussettings import GuiBuildSettings
+from cowriter import SHARED
+from cowriter.constants import nwHeadFmt
+from cowriter.core.buildsettings import BuildSettings
+from cowriter.tools.manusbuild import GuiManuscriptBuild
+from cowriter.tools.manuscript import GuiManuscript
+from cowriter.tools.manussettings import GuiBuildSettings
 
 from tests.tools import C, buildTestProject
 
@@ -302,7 +302,7 @@ def testToolManuscript_Features(monkeypatch, qtbot, nwGUI, projPath, mockRnd):
     build._changed = True
     manus.buildList.clearSelection()
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.tools.manusbuild.GuiManuscriptBuild.exec", lambda *a: None)
+        mp.setattr("cowriter.tools.manusbuild.GuiManuscriptBuild.exec", lambda *a: None)
 
         manus.buildList.setCurrentRow(0)
         manus.btnBuild.click()

@@ -27,8 +27,8 @@ import pytest
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QMessageBox
 
-from novelwriter import SHARED
-from novelwriter.dialogs.about import GuiAbout
+from cowriter import SHARED
+from cowriter.dialogs.about import GuiAbout
 
 
 @pytest.mark.gui
@@ -46,7 +46,7 @@ def testDlgAbout_NWDialog(qtbot, monkeypatch, nwGUI):
     assert document.characterCount() > 100
 
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.config.Config.assetPath", lambda *a: Path("whatever"))
+        mp.setattr("cowriter.config.Config.assetPath", lambda *a: Path("whatever"))
         msgAbout._fillCreditsPage()
         assert msgAbout.txtCredits.toPlainText() == "Error loading credits text ..."
 

@@ -25,8 +25,8 @@ import pytest
 from PyQt6.QtCore import QEvent, QPointF
 from PyQt6.QtGui import QEnterEvent, QMouseEvent
 
-from novelwriter.extensions.switch import NSwitch
-from novelwriter.types import QtModNone, QtMouseLeft
+from cowriter.extensions.switch import NSwitch
+from cowriter.types import QtModNone, QtMouseLeft
 
 from tests.tools import SimpleDialog
 

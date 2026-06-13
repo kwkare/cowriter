@@ -26,16 +26,16 @@ import pytest
 
 from PyQt6.QtWidgets import QApplication, QDialog
 
-from novelwriter import CONFIG, SHARED
-from novelwriter.dialogs.about import GuiAbout
-from novelwriter.dialogs.preferences import GuiPreferences
-from novelwriter.dialogs.projectsettings import GuiProjectSettings
-from novelwriter.dialogs.wordlist import GuiWordList
-from novelwriter.tools.dictionaries import GuiDictionaries
-from novelwriter.tools.manuscript import GuiManuscript
-from novelwriter.tools.noveldetails import GuiNovelDetails
-from novelwriter.tools.welcome import GuiWelcome
-from novelwriter.tools.writingstats import GuiWritingStats
+from cowriter import CONFIG, SHARED
+from cowriter.dialogs.about import GuiAbout
+from cowriter.dialogs.preferences import GuiPreferences
+from cowriter.dialogs.projectsettings import GuiProjectSettings
+from cowriter.dialogs.wordlist import GuiWordList
+from cowriter.tools.dictionaries import GuiDictionaries
+from cowriter.tools.manuscript import GuiManuscript
+from cowriter.tools.noveldetails import GuiNovelDetails
+from cowriter.tools.welcome import GuiWelcome
+from cowriter.tools.writingstats import GuiWritingStats
 
 from tests.tools import buildTestProject
 

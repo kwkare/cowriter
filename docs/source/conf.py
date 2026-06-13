@@ -24,7 +24,7 @@ if override_version := os.environ.get("SPHINX_I18N_VERSION"):
 else:
     initFile = os.path.join(
         os.path.dirname(__file__), os.pardir, os.pardir,
-        "novelwriter", "__init__.py"
+        "cowriter", "__init__.py"
     )
     with open(initFile, encoding="utf-8") as inFile:
         for aLine in inFile:
@@ -60,12 +60,12 @@ html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 html_theme_options = {
     "logo": {
-        "image_light": "_static/novelwriter-light.png",
-        "image_dark": "_static/novelwriter-dark.png",
+        "image_light": "_static/cowriter-light.png",
+        "image_dark": "_static/cowriter-dark.png",
     },
     "show_toc_level": 2,
     "show_navbar_depth": 1,
-    "repository_url": "https://github.com/vkbo/novelwriter",
+    "repository_url": "https://github.com/vkbo/cowriter",
     "navigation_with_keys": True,
     "use_repository_button": True,
     "use_issues_button": True,
@@ -87,7 +87,7 @@ latex_elements = {
     ),
     "figure_align": "htbp",
 }
-latex_logo = "_static/novelwriter-pdf.png"
+latex_logo = "_static/cowriter-pdf.png"
 latex_documents = [(
     master_doc, "manual.tex", None, author, "manual"
 )]

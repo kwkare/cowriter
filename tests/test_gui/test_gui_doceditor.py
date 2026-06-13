@@ -32,16 +32,16 @@ from PyQt6.QtGui import (
 )
 from PyQt6.QtWidgets import QApplication, QMenu, QPlainTextEdit
 
-from novelwriter import CONFIG, SHARED
-from novelwriter.common import decodeMimeHandles
-from novelwriter.constants import nwKeyWords, nwUnicode
-from novelwriter.core.item import NWItem
-from novelwriter.dialogs.editlabel import GuiEditLabel
-from novelwriter.enum import nwDocAction, nwDocInsert, nwItemClass, nwItemLayout, nwState
-from novelwriter.gui.doceditor import CommandCompleter, GuiDocEditor, TextAutoReplace, _TagAction
-from novelwriter.gui.dochighlight import TextBlockData
-from novelwriter.text.counting import standardCounter
-from novelwriter.types import (
+from cowriter import CONFIG, SHARED
+from cowriter.common import decodeMimeHandles
+from cowriter.constants import nwKeyWords, nwUnicode
+from cowriter.core.item import NWItem
+from cowriter.dialogs.editlabel import GuiEditLabel
+from cowriter.enum import nwDocAction, nwDocInsert, nwItemClass, nwItemLayout, nwState
+from cowriter.gui.doceditor import CommandCompleter, GuiDocEditor, TextAutoReplace, _TagAction
+from cowriter.gui.dochighlight import TextBlockData
+from cowriter.text.counting import standardCounter
+from cowriter.types import (
     QtAlignJustify, QtAlignLeft, QtImCurrentSelection, QtImCursorRectangle,
     QtKeepAnchor, QtModCtrl, QtModNone, QtMouseLeft, QtMoveAnchor, QtMoveRight,
     QtScrollAlwaysOff, QtScrollAsNeeded, QtSelectDocument, QtSelectWord

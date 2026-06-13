@@ -25,12 +25,12 @@ import pytest
 from PyQt6.QtCore import pyqtSlot
 from PyQt6.QtGui import QFont
 
-from novelwriter import SHARED
-from novelwriter.common import describeFont
-from novelwriter.constants import nwHeadFmt, nwStyles
-from novelwriter.core.buildsettings import BuildSettings, FilterMode
-from novelwriter.extensions.modified import NFontDialog
-from novelwriter.tools.manussettings import (
+from cowriter import SHARED
+from cowriter.common import describeFont
+from cowriter.constants import nwHeadFmt, nwStyles
+from cowriter.core.buildsettings import BuildSettings, FilterMode
+from cowriter.extensions.modified import NFontDialog
+from cowriter.tools.manussettings import (
     GuiBuildSettings, _FilterTab, _FormattingTab, _HeadingsTab
 )
 

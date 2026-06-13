@@ -27,12 +27,12 @@ from zipfile import ZipFile
 
 import pytest
 
-from novelwriter import CONFIG
-from novelwriter.constants import nwFiles
-from novelwriter.core.document import NWDocument
-from novelwriter.core.project import NWProject
-from novelwriter.core.projectxml import ProjectXMLReader, ProjectXMLWriter
-from novelwriter.core.storage import NWStorage, NWStorageCreate, NWStorageOpen, _LegacyStorage
+from cowriter import CONFIG
+from cowriter.constants import nwFiles
+from cowriter.core.document import NWDocument
+from cowriter.core.project import NWProject
+from cowriter.core.projectxml import ProjectXMLReader, ProjectXMLWriter
+from cowriter.core.storage import NWStorage, NWStorageCreate, NWStorageOpen, _LegacyStorage
 
 from tests.mocked import causeOSError
 from tests.tools import C, buildTestProject
@@ -213,7 +213,7 @@ def testCoreStorage_InitProjectStorage_Invalid(monkeypatch, mockGUI, fncPath):
 @pytest.mark.core
 def testCoreStorage_LockFile(monkeypatch, fncPath):
     """Test the project lock file."""
-    monkeypatch.setattr("novelwriter.core.storage.time", lambda: 1000.0)
+    monkeypatch.setattr("cowriter.core.storage.time", lambda: 1000.0)
 
     storage = NWStorage(MockProject())  # type: ignore
     assert storage.isOpen() is False
@@ -286,7 +286,7 @@ def testCoreStorage_ZipIt(monkeypatch, mockGUI, fncPath, tstPaths, mockRnd):
 
     # Fail to create archive
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.storage.ZipFile.write", causeOSError)
+        mp.setattr("cowriter.core.storage.ZipFile.write", causeOSError)
         assert storage.zipIt(zipFile) is False
 
     # Create archive

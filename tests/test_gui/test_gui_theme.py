@@ -31,11 +31,11 @@ import pytest
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor, QFont, QFontDatabase, QIcon, QPalette, QPixmap, QStyleHints
 
-from novelwriter import CONFIG
-from novelwriter.config import DEF_GUI_DARK, DEF_GUI_LIGHT, DEF_ICONS
-from novelwriter.constants import nwLabels
-from novelwriter.enum import nwItemClass, nwItemLayout, nwItemType, nwTheme
-from novelwriter.gui.theme import (
+from cowriter import CONFIG
+from cowriter.config import DEF_GUI_DARK, DEF_GUI_LIGHT, DEF_ICONS
+from cowriter.constants import nwLabels
+from cowriter.enum import nwItemClass, nwItemLayout, nwItemType, nwTheme
+from cowriter.gui.theme import (
     STYLES_BIG_TOOLBUTTON, STYLES_FLAT_TABS, STYLES_MIN_TOOLBUTTON, GuiTheme,
     ThemeMeta, _listContent
 )
@@ -446,7 +446,7 @@ def testGuiTheme_LoadIcons():
     assert qPix.height() == 50, "If this fails, make sure QT_SCALE_FACTOR=1"
 
     # Load app icon
-    qIcon = iconCache.getIcon("novelwriter", "tool")
+    qIcon = iconCache.getIcon("cowriter", "tool")
     assert isinstance(qIcon, QIcon)
     assert qIcon != iconCache._noIcon
 

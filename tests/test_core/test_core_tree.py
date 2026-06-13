@@ -27,11 +27,11 @@ from pathlib import Path
 
 import pytest
 
-from novelwriter.constants import nwFiles
-from novelwriter.core.item import NWItem
-from novelwriter.core.project import NWProject
-from novelwriter.core.tree import NWTree
-from novelwriter.enum import nwItemClass, nwItemType
+from cowriter.constants import nwFiles
+from cowriter.core.item import NWItem
+from cowriter.core.project import NWProject
+from cowriter.core.tree import NWTree
+from cowriter.enum import nwItemClass, nwItemType
 
 from tests.mocked import causeOSError
 from tests.tools import C, buildTestProject
@@ -113,7 +113,7 @@ def testCoreTree_Populate(monkeypatch, mockGUI, mockItems):
 
     # Clear and populate reversed with max depth limit very low
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.tree.MAX_DEPTH", 1)
+        mp.setattr("cowriter.core.tree.MAX_DEPTH", 1)
         tree.clear()
         assert bool(tree) is False
         assert len(tree) == 0
@@ -387,7 +387,7 @@ def testCoreTree_ItemMethods(monkeypatch, mockGUI, mockItems):
         ("0000000000008", "Novel"),
     ]
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.tree.MAX_DEPTH", 1)
+        mp.setattr("cowriter.core.tree.MAX_DEPTH", 1)
         assert tree.itemPath(C.hSceneDoc, withName=True) == [
             ("000000000000f", "New Scene"),
         ]
@@ -466,7 +466,7 @@ def testCoreTree_OtherMethods(qtbot, monkeypatch, mockGUI, fncPath, mockRnd):
     tree.remove(trash.item.itemHandle)
 
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.tree.NWTree.create", lambda *a, **k: None)
+        mp.setattr("cowriter.core.tree.NWTree.create", lambda *a, **k: None)
         assert tree._getTrashNode() is None
 
 
@@ -574,7 +574,7 @@ def testCoreTree_ToCFile(monkeypatch, fncPath, mockGUI, mockItems):
 
     # Block extraction of the path
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.storage.NWStorage.contentPath", lambda *a: None)
+        mp.setattr("cowriter.core.storage.NWStorage.contentPath", lambda *a: None)
         assert tree.writeToCFile() is False
 
     # Block opening the file

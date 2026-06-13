@@ -24,8 +24,8 @@ import pytest
 
 from PyQt6.QtGui import QColor, QIcon
 
-from novelwriter.core.status import CUSTOM_COL, NWStatus, StatusEntry, _ShapeCache
-from novelwriter.enum import nwStatusShape
+from cowriter.core.status import CUSTOM_COL, NWStatus, StatusEntry, _ShapeCache
+from cowriter.enum import nwStatusShape
 
 from tests.tools import C
 

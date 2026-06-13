@@ -29,12 +29,12 @@ from PyQt6.QtCore import QPoint, Qt
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QFileDialog, QMenu
 
-from novelwriter import CONFIG, SHARED
-from novelwriter.constants import nwFiles
-from novelwriter.core.projectdata import NWProjectData
-from novelwriter.enum import nwItemClass
-from novelwriter.tools.welcome import SAMPLE_KEY, SAMPLE_NAME, GuiWelcome, _ProjectListEntry
-from novelwriter.types import (
+from cowriter import CONFIG, SHARED
+from cowriter.constants import nwFiles
+from cowriter.core.projectdata import NWProjectData
+from cowriter.enum import nwItemClass
+from cowriter.tools.welcome import SAMPLE_KEY, SAMPLE_NAME, GuiWelcome, _ProjectListEntry
+from cowriter.types import (
     QtAccessibleTextRole, QtDecorationRole, QtDisplayRole, QtFontRole,
     QtMouseLeft, QtTextAlignmentRole, QtToolTipRole, QtUserRole
 )

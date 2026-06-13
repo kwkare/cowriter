@@ -24,7 +24,7 @@ import time
 
 import pytest
 
-from novelwriter import CONFIG, SHARED
+from cowriter import CONFIG, SHARED
 
 from tests.tools import C, buildTestProject
 
@@ -103,7 +103,7 @@ def testGuiStatusBar_Main(qtbot, monkeypatch, nwGUI, projPath, mockRnd):
 
     # Update again, but through time tick
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.guimain.time", lambda *a: 50.0)
+        mp.setattr("cowriter.guimain.time", lambda *a: 50.0)
         CONFIG.incNotesWCount = True
         nwGUI._lastTotalCount = 0
         nwGUI._timeTick()
@@ -113,7 +113,7 @@ def testGuiStatusBar_Main(qtbot, monkeypatch, nwGUI, projPath, mockRnd):
     CONFIG.useCharCount = True
     status.initSettings()
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.guimain.time", lambda *a: 50.0)
+        mp.setattr("cowriter.guimain.time", lambda *a: 50.0)
         CONFIG.incNotesWCount = True
         nwGUI._lastTotalCount = 0
         nwGUI._timeTick()

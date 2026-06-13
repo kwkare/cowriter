@@ -29,12 +29,12 @@ from PyQt6.QtGui import QDesktopServices
 from PyQt6.QtWidgets import QFileDialog, QListWidgetItem
 from pytestqt.qtbot import QtBot
 
-from novelwriter.constants import nwLabels
-from novelwriter.core.buildsettings import BuildSettings
-from novelwriter.enum import nwBuildFmt
-from novelwriter.guimain import GuiMain
-from novelwriter.shared import _GuiAlert
-from novelwriter.tools.manusbuild import GuiManuscriptBuild
+from cowriter.constants import nwLabels
+from cowriter.core.buildsettings import BuildSettings
+from cowriter.enum import nwBuildFmt
+from cowriter.guimain import GuiMain
+from cowriter.shared import _GuiAlert
+from cowriter.tools.manusbuild import GuiManuscriptBuild
 
 from tests.tools import buildTestProject
 

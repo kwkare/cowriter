@@ -24,13 +24,13 @@ import pytest
 
 from PyQt6.QtGui import QTextBlock, QTextCharFormat, QTextCursor
 
-from novelwriter import CONFIG
-from novelwriter.constants import nwHeadFmt, nwUnicode
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwComment
-from novelwriter.formats.shared import BlockFmt, BlockTyp, TextDocumentTheme
-from novelwriter.formats.toqdoc import ToQTextDocument
-from novelwriter.types import (
+from cowriter import CONFIG
+from cowriter.constants import nwHeadFmt, nwUnicode
+from cowriter.core.project import NWProject
+from cowriter.enum import nwComment
+from cowriter.formats.shared import BlockFmt, BlockTyp, TextDocumentTheme
+from cowriter.formats.toqdoc import ToQTextDocument
+from cowriter.types import (
     QtAlignAbsolute, QtAlignCenter, QtAlignJustify, QtAlignLeft, QtAlignRight,
     QtFontBold, QtPageBreakAfter, QtPageBreakAuto, QtPageBreakBefore,
     QtTransparent, QtVAlignNormal, QtVAlignSub, QtVAlignSuper

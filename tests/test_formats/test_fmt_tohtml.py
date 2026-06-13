@@ -24,12 +24,12 @@ import json
 
 import pytest
 
-from novelwriter import CONFIG
-from novelwriter.constants import nwHeadFmt
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwComment
-from novelwriter.formats.shared import BlockFmt, BlockTyp
-from novelwriter.formats.tohtml import ToHtml
+from cowriter import CONFIG
+from cowriter.constants import nwHeadFmt
+from cowriter.core.project import NWProject
+from cowriter.enum import nwComment
+from cowriter.formats.shared import BlockFmt, BlockTyp
+from cowriter.formats.tohtml import ToHtml
 
 
 @pytest.mark.core

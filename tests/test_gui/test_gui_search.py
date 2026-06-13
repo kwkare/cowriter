@@ -27,8 +27,8 @@ import pytest
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QAction
 
-from novelwriter.enum import nwDocMode, nwView
-from novelwriter.gui.search import GuiProjectSearch
+from cowriter.enum import nwDocMode, nwView
+from cowriter.gui.search import GuiProjectSearch
 
 
 @pytest.mark.gui

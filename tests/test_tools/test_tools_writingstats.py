@@ -28,10 +28,10 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QFileDialog
 
-from novelwriter import SHARED
-from novelwriter.constants import nwFiles
-from novelwriter.tools.writingstats import GuiWritingStats
-from novelwriter.types import QtMouseLeft
+from cowriter import SHARED
+from cowriter.constants import nwFiles
+from cowriter.tools.writingstats import GuiWritingStats
+from cowriter.types import QtMouseLeft
 
 from tests.mocked import causeOSError
 from tests.tools import buildTestProject

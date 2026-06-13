@@ -30,7 +30,7 @@ import pytest
 from PyQt6.QtCore import QMimeData, QUrl
 from PyQt6.QtGui import QDesktopServices, QFont, QFontDatabase, QFontInfo
 
-from novelwriter.common import (
+from cowriter.common import (
     NWConfigParser, appendIfSet, checkBool, checkFloat, checkInt,
     checkIntTuple, checkPath, checkString, checkStringNone, checkUuid, compact,
     decodeMimeHandles, describeFont, elide, encodeMimeHandles, firstFloat,
@@ -43,7 +43,7 @@ from novelwriter.common import (
     transferCase, uniqueCompact, utf16CharMap, xmlElement, xmlIndent,
     xmlSubElem, yesNo
 )
-from novelwriter.enum import nwItemClass
+from cowriter.enum import nwItemClass
 
 from tests.mocked import causeOSError
 from tests.tools import writeFile

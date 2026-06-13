@@ -26,10 +26,10 @@ import pytest
 
 from PyQt6.QtGui import QIcon
 
-from novelwriter import CONFIG
-from novelwriter.core.item import NWItem
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwItemClass, nwItemLayout, nwItemType
+from cowriter import CONFIG
+from cowriter.core.item import NWItem
+from cowriter.core.project import NWProject
+from cowriter.enum import nwItemClass, nwItemLayout, nwItemType
 
 from tests.tools import C, buildTestProject
 

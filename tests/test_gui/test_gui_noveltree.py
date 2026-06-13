@@ -27,11 +27,11 @@ import pytest
 from PyQt6.QtCore import QModelIndex, QPoint
 from PyQt6.QtWidgets import QInputDialog, QToolTip
 
-from novelwriter import CONFIG, SHARED
-from novelwriter.core.novelmodel import NovelModel
-from novelwriter.dialogs.editlabel import GuiEditLabel
-from novelwriter.enum import nwFocus, nwItemType, nwNovelExtra, nwView
-from novelwriter.types import QtDisplayRole
+from cowriter import CONFIG, SHARED
+from cowriter.core.novelmodel import NovelModel
+from cowriter.dialogs.editlabel import GuiEditLabel
+from cowriter.enum import nwFocus, nwItemType, nwNovelExtra, nwView
+from cowriter.types import QtDisplayRole
 
 from tests.tools import C, buildTestProject
 

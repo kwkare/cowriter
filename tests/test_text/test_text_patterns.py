@@ -24,9 +24,9 @@ import re
 
 import pytest
 
-from novelwriter import CONFIG
-from novelwriter.constants import nwUnicode
-from novelwriter.text.patterns import REGEX_PATTERNS, DialogParser
+from cowriter import CONFIG
+from cowriter.constants import nwUnicode
+from cowriter.text.patterns import REGEX_PATTERNS, DialogParser
 
 
 def allMatches(regEx: re.Pattern, text: str) -> list[list[tuple[str, int, int]]]:

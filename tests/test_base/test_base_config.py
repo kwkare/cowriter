@@ -31,10 +31,10 @@ import pytest
 
 from PyQt6.QtCore import QRect
 
-from novelwriter import CONFIG
-from novelwriter.config import Config, RecentPaths, RecentProjects
-from novelwriter.constants import nwFiles
-from novelwriter.core.project import NWProject
+from cowriter import CONFIG
+from cowriter.config import Config, RecentPaths, RecentProjects
+from cowriter.constants import nwFiles
+from cowriter.core.project import NWProject
 
 from tests.mocked import MockApp, causeOSError
 from tests.tools import cmpFiles, writeFile
@@ -95,8 +95,8 @@ def testBaseConfig_InitLoadSave(monkeypatch, fncPath, tstPaths):
     conf = Config()
 
     confFile = fncPath / nwFiles.CONF_FILE
-    testFile = tstPaths.outDir / "baseConfig_novelwriter.conf"
-    compFile = tstPaths.refDir / "baseConfig_novelwriter.conf"
+    testFile = tstPaths.outDir / "baseConfig_cowriter.conf"
+    compFile = tstPaths.refDir / "baseConfig_cowriter.conf"
 
     # Make sure we don't have any old conf file
     if confFile.is_file():

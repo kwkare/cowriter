@@ -28,15 +28,15 @@ from shutil import copyfile
 
 import pytest
 
-from novelwriter.core.buildsettings import BuildSettings
-from novelwriter.core.docbuild import NWBuildDocument
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwBuildFmt
-from novelwriter.formats.tohtml import ToHtml
-from novelwriter.formats.tomarkdown import ToMarkdown
-from novelwriter.formats.toodt import ToOdt
-from novelwriter.formats.toqdoc import ToQTextDocument
-from novelwriter.formats.toraw import ToRaw
+from cowriter.core.buildsettings import BuildSettings
+from cowriter.core.docbuild import NWBuildDocument
+from cowriter.core.project import NWProject
+from cowriter.enum import nwBuildFmt
+from cowriter.formats.tohtml import ToHtml
+from cowriter.formats.tomarkdown import ToMarkdown
+from cowriter.formats.toodt import ToOdt
+from cowriter.formats.toqdoc import ToQTextDocument
+from cowriter.formats.toraw import ToRaw
 
 from tests.mocked import causeException, causeOSError
 from tests.tools import ODT_IGNORE, C, buildTestProject, cmpFiles
@@ -150,7 +150,7 @@ def testCoreDocBuild_OpenDocument(monkeypatch, mockGUI, prjLipsum, fncPath, tstP
     # ==================
 
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.formats.toodt.ToOdt.doConvert", causeException)
+        mp.setattr("cowriter.formats.toodt.ToOdt.doConvert", causeException)
         assert len(docBuild) == 22
 
         count = 0

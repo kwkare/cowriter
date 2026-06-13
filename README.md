@@ -1,85 +1,112 @@
-# novelWriter
+<img align="left" style="margin: 0 0 4px 0;" src="https://raw.githubusercontent.com/YOUR_USERNAME/cowriter/main/setup/cowriter_readme.png">
 
-[![Linux](https://github.com/vkbo/novelWriter/actions/workflows/test_linux.yml/badge.svg)](https://github.com/vkbo/novelWriter/actions/workflows/test_linux.yml)
-[![Windows](https://github.com/vkbo/novelWriter/actions/workflows/test_win.yml/badge.svg)](https://github.com/vkbo/novelWriter/actions/workflows/test_win.yml)
-[![MacOS](https://github.com/vkbo/novelWriter/actions/workflows/test_mac.yml/badge.svg)](https://github.com/vkbo/novelWriter/actions/workflows/test_mac.yml)
-[![Linting](https://github.com/vkbo/novelWriter/actions/workflows/syntax.yml/badge.svg)](https://github.com/vkbo/novelWriter/actions/workflows/syntax.yml)
-[![CodeCov](https://codecov.io/gh/vkbo/novelWriter/branch/main/graph/badge.svg)](https://codecov.io/gh/vkbo/novelWriter)
+# CoWriter · 共笔
 
-<img align="left" style="margin: 0 0 4px 0;" src="https://raw.githubusercontent.com/vkbo/novelWriter/main/setup/novelwriter_readme.png">
+**AI 辅助小说写作编辑器** | 基于 novelWriter 衍生
 
-novelWriter is a plain text editor designed for writing novels assembled from many smaller text
-documents. It uses a minimal formatting syntax inspired by Markdown, and adds a meta data syntax
-for comments, synopsis, and cross-referencing. It's designed to be a simple text editor that allows
-for easy organisation of text and notes, using human readable text files as storage for robustness.
-The project format is well suited both for version control software and file synchronisation tools.
+> CoWriter 是 novelWriter 的一个分支，在其优秀的纯文本写作编辑器基础上，融入了 **AI 辅助写作** 能力。与 AI 共笔，行文更从容。
 
-For more details, and how to install and use novelWriter, please see the main website and
-documentation.
+---
 
-**Project Links**
+## 特色功能
 
-* Website: [novelwriter.io](https://novelwriter.io)
-* Documentation: [docs.novelwriter.io](https://docs.novelwriter.io)
-* Internationalisation: [crowdin.com/project/novelwriter](https://crowdin.com/project/novelwriter)
-* PyPi Project: [pypi.org/project/novelWriter](https://pypi.org/project/novelWriter)
-* Social Media: [fosstodon.org/@novelwriter](https://fosstodon.org/@novelwriter)
+### ✍️ AI 辅助写作
+- **续写**（Continue）：在光标处让 AI 继续写出下文
+- **改写**（Rewrite）：选中文本 → AI 润色/重写
+- **扩写**（Expand）：把简略的描述展开为细腻的段落
+- **AI 聊天**（AI Chat）：侧边栏 AI 对话窗口，边聊边写
+- **头脑风暴**：根据大纲/情节生成创意建议
 
-_This project is developed with care, and is 100% free of AI slop._
+### 🔌 多模型支持
+| 模型 | 类型 | 特点 |
+|------|------|------|
+| **OpenAI** (GPT-4o/GPT-4) | 云端 API | 最强文字能力 |
+| **Anthropic** (Claude) | 云端 API | 长上下文，风格细腻 |
+| **Ollama** (Qwen2.5/Llama 等) | **本地运行** | 免费、隐私安全 |
 
-## Sponsors
+### 📝 继承 novelWriter 的全部能力
+- 纯文本编辑器，类 Markdown 格式
+- 分章节/分场景管理
+- 角色/地点/笔记管理
+- 大纲视图与写作统计
+- 多主题支持
+- 导出为 ODT/HTML/DOCX/Markdown
 
-<table style="border: none;">
-<tr>
-  <td><img align="left" style="height: 25px;" src="https://raw.githubusercontent.com/vkbo/novelWriter/main/setup/signpath_logo.png"></td>
-  <td>Free code signing on Windows provided by <a href="https://about.signpath.io/">SignPath.io</a>, certificate by <a href="https://signpath.org/">SignPath Foundation</a>.</td>
-</tr>
-</table>
+---
 
+## 快速开始
 
-## Implementation
+### 安装
 
-novelWriter is written in Python and uses Qt6 with PyQt6 Python binding as the UI framework. It is
-released on Linux, Windows and MacOS. It can in principle run on any Operating System that also
-supports Qt, PyQt and Python.
+```bash
+# 克隆仓库
+git clone https://github.com/YOUR_USERNAME/cowriter.git
+cd cowriter
 
-<p align="center">
-  <img width="80%" src="https://raw.githubusercontent.com/vkbo/novelWriter/main/setup/screenshot.png">
-</p>
+# 推荐使用 PDM 安装
+pdm install
 
+# 或者用 pip
+pip install -e .
+```
 
-## Project Contributions
+### 运行
 
-Please don't make feature pull requests without first having discussed them with the maintainer.
-You can make a feature request in the [issues tracker](https://github.com/vkbo/novelWriter/issues),
-or if the idea isn't fully formed, start a [discussion](https://github.com/vkbo/novelWriter/discussions).
-Please also don't make pull requests to reformat or rewrite existing code unless there is a very
-good reason for doing so. Please do not submit AI generated content.
+```bash
+# 方式一
+pdm run cowriter
 
-Fixes and patches are welcome. Contributions related to packaging and installing novelWriter will
-also be appreciated, but please make an issue or a discussion topic first. Before contributing any
-code, please also read the full
-[Contributing Guide](https://github.com/vkbo/novelWriter/blob/main/CONTRIBUTING.md).
+# 方式二
+python -m cowriter
 
-Project credits are available in [CREDITS.md](https://github.com/vkbo/novelWriter/blob/main/CREDITS.md).
+# 方式三（根目录脚本）
+python CoWriter.py
+```
 
-**Note:** New features and pre-releases are made on the `main` branch. Full releases are made from
-the `release` branch. So if you're submitting a fix to a current release, **including changes to
-documentation**, they must be made to the `release` branch.
+### 配置 AI
 
+1. 启动 CoWriter
+2. 进入 **Preferences → AI Assistant**
+3. 选择 Provider（OpenAI / Anthropic / Ollama）
+4. 填入 API Key（云端模型）或保持默认（本地 Ollama）
+5. 开始写作！🎉
 
-### Translations
+---
 
-New translations are always welcome. This project uses Crowdin to maintain translations, and you
-can contribute translations at the [Crowdin project page](https://crowdin.com/project/novelwriter).
-If you have any questions, feel free to post them to the
-[Translations of novelWriter](https://github.com/vkbo/novelWriter/issues/93) issue thread.
+## 项目结构
 
+```
+cowriter/
+├── ai/                  # AI 模块（新增）
+│   ├── provider.py      #   Provider 抽象层
+│   ├── completion.py    #   续写/改写引擎
+│   ├── chat.py          #   AI 对话会话
+│   ├── prompts.py       #   Prompt 模板
+│   └── settings.py      #   AI 配置模型
+├── core/                # 核心逻辑（继承 novelWriter）
+├── gui/                 # GUI 组件（继承 + 新增 AI 面板）
+├── extensions/          # 扩展组件
+├── formats/             # 导出格式
+├── tools/               # 工具
+└── ...                  # 其余继承自 novelWriter
+```
 
-## Licence
+---
 
-This is Open Source software, and novelWriter is licenced under GPLv3. See the
-[GNU General Public License website](https://www.gnu.org/licenses/gpl-3.0.en.html) for more
-details, or consult the [License](https://github.com/vkbo/novelWriter/blob/main/LICENSE.md)
-document. Bundled assets and their licences are listed in the
-[Credits](https://github.com/vkbo/novelWriter/blob/main/CREDITS.md) document.
+## 与 novelWriter 的关系
+
+CoWriter 是 [novelWriter](https://novelwriter.io) 的 **GPLv3 分支**。
+
+- **致敬原作者**：novelWriter 是由 [Veronica Berglyd Olsen](https://github.com/vkbo) 精心维护的优秀项目
+- **尊重原项目态度**：novelWriter 坚持「100% free of AI slop」，因此 CoWriter 作为一个 AI 增强分支，与 upstream 保持独立发展
+- **上游更新**：我们会定期从 novelWriter 合并更新
+
+---
+
+## 许可证
+
+GNU General Public License v3.0 (GPLv3) — 与 novelWriter 一致。
+
+---
+
+*与 AI 共笔，共织锦绣文章。*

@@ -26,13 +26,13 @@ from shutil import copyfile
 
 import pytest
 
-from novelwriter import SHARED
-from novelwriter.constants import nwFiles
-from novelwriter.core.index import Index, TagsIndex
-from novelwriter.core.item import NWItem
-from novelwriter.core.novelmodel import NovelModel
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwComment, nwItemClass, nwItemLayout, nwNovelExtra
+from cowriter import SHARED
+from cowriter.constants import nwFiles
+from cowriter.core.index import Index, TagsIndex
+from cowriter.core.item import NWItem
+from cowriter.core.novelmodel import NovelModel
+from cowriter.core.project import NWProject
+from cowriter.enum import nwComment, nwItemClass, nwItemLayout, nwNovelExtra
 
 from tests.mocked import causeException
 from tests.tools import C, buildTestProject, cmpFiles
@@ -80,7 +80,7 @@ def testCoreIndex_LoadSave(qtbot, monkeypatch, prjLipsum, nwGUI, tstPaths):
 
     # No folder for saving
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.storage.NWStorage.getMetaFile", lambda *a: None)
+        mp.setattr("cowriter.core.storage.NWStorage.getMetaFile", lambda *a: None)
         assert index.saveIndex() is False
 
     # Make the save fail
@@ -132,7 +132,7 @@ def testCoreIndex_LoadSave(qtbot, monkeypatch, prjLipsum, nwGUI, tstPaths):
 
     # No folder for loading
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.storage.NWStorage.getMetaFile", lambda *a: None)
+        mp.setattr("cowriter.core.storage.NWStorage.getMetaFile", lambda *a: None)
         assert index.loadIndex() is False
 
     # Make the load fail

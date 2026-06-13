@@ -28,11 +28,11 @@ from pathlib import Path
 
 import pytest
 
-from novelwriter import CONFIG
-from novelwriter.constants import nwFiles, nwHeadFmt
-from novelwriter.core.buildsettings import BuildCollection, BuildSettings, FilterMode
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwBuildFmt, nwItemClass
+from cowriter import CONFIG
+from cowriter.constants import nwFiles, nwHeadFmt
+from cowriter.core.buildsettings import BuildCollection, BuildSettings, FilterMode
+from cowriter.core.project import NWProject
+from cowriter.enum import nwBuildFmt, nwItemClass
 
 from tests.mocked import causeOSError
 from tests.tools import C, buildTestProject
@@ -436,7 +436,7 @@ def testCoreBuildSettings_Collection(monkeypatch, mockGUI, fncPath: Path, mockRn
 
     # Check errors: No valid path
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.storage.NWStorage.getMetaFile", lambda *a: None)
+        mp.setattr("cowriter.core.storage.NWStorage.getMetaFile", lambda *a: None)
         assert builds._loadCollection() is False
         assert builds._saveCollection() is False
 

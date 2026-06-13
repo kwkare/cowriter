@@ -26,7 +26,7 @@ import pytest
 
 from PyQt6.QtGui import QColor
 
-from novelwriter.extensions.progressbars import NProgressCircle, NProgressSimple
+from cowriter.extensions.progressbars import NProgressCircle, NProgressSimple
 
 from tests.tools import SimpleDialog
 

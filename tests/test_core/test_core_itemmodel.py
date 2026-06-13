@@ -25,13 +25,13 @@ import pytest
 from PyQt6.QtCore import QMimeData, QModelIndex, Qt
 from PyQt6.QtTest import QAbstractItemModelTester
 
-from novelwriter.common import decodeMimeHandles
-from novelwriter.constants import nwConst
-from novelwriter.core.item import NWItem
-from novelwriter.core.itemmodel import INV_ROOT, NODE_FLAGS, ProjectModel, ProjectNode
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwItemLayout, nwItemType
-from novelwriter.types import QtDisplayRole, QtToolTipRole
+from cowriter.common import decodeMimeHandles
+from cowriter.constants import nwConst
+from cowriter.core.item import NWItem
+from cowriter.core.itemmodel import INV_ROOT, NODE_FLAGS, ProjectModel, ProjectNode
+from cowriter.core.project import NWProject
+from cowriter.enum import nwItemLayout, nwItemType
+from cowriter.types import QtDisplayRole, QtToolTipRole
 
 from tests.tools import buildTestProject
 

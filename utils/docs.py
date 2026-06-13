@@ -142,7 +142,7 @@ def buildPdfDocAssets(args: argparse.Namespace | None = None) -> None:
 
         if (ex := subprocess.call(cmd, cwd=docsDir, env=env, shell=True)) == 0:
             print("")
-            pdfFile.rename(ROOT_DIR / "novelwriter" / "assets" / name)
+            pdfFile.rename(ROOT_DIR / "cowriter" / "assets" / name)
         else:
             raise Exception(f"Build returned error code {ex}")
 

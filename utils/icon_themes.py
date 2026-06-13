@@ -408,7 +408,7 @@ def main(args: argparse.Namespace) -> None:
 
     workDir = Path(args.work_dir).absolute()
     workDir.mkdir(exist_ok=True)
-    iconsDir = ROOT_DIR / "novelwriter" / "assets" / "icons"
+    iconsDir = ROOT_DIR / "cowriter" / "assets" / "icons"
 
     style = args.style
     if style in ("all", "default", "material"):

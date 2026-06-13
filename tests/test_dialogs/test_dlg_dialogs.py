@@ -25,9 +25,9 @@ import pytest
 from PyQt6.QtCore import QItemSelectionModel
 from PyQt6.QtWidgets import QListWidgetItem
 
-from novelwriter.dialogs.editlabel import GuiEditLabel
-from novelwriter.dialogs.quotes import GuiQuoteSelect
-from novelwriter.types import QtAccepted, QtRejected
+from cowriter.dialogs.editlabel import GuiEditLabel
+from cowriter.dialogs.quotes import GuiQuoteSelect
+from cowriter.types import QtAccepted, QtRejected
 
 
 @pytest.mark.gui

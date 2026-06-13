@@ -28,11 +28,11 @@ from PyQt6.QtCore import QMimeData, QPointF, Qt, QUrl
 from PyQt6.QtGui import QAction, QDesktopServices, QDragEnterEvent, QDragMoveEvent, QDropEvent
 from PyQt6.QtWidgets import QApplication, QMenu, QTextBrowser
 
-from novelwriter import CONFIG, SHARED
-from novelwriter.common import decodeMimeHandles
-from novelwriter.enum import nwChange, nwDocAction
-from novelwriter.formats.toqdoc import ToQTextDocument
-from novelwriter.types import QtModNone, QtMouseLeft, QtMouseMiddle, QtSelectBlock, QtSelectWord
+from cowriter import CONFIG, SHARED
+from cowriter.common import decodeMimeHandles
+from cowriter.enum import nwChange, nwDocAction
+from cowriter.formats.toqdoc import ToQTextDocument
+from cowriter.types import QtModNone, QtMouseLeft, QtMouseMiddle, QtSelectBlock, QtSelectWord
 
 from tests.mocked import causeException
 from tests.tools import C, buildTestProject

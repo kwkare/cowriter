@@ -36,7 +36,7 @@ SIGN_KEY = "D6A9F6B8F227CF7C6F6D1EE84DBBE4B734B0BD08"
 
 DEB_STABLE = 13
 DEB_CONTROL = f"""
-Source: novelwriter
+Source: cowriter
 Maintainer: Veronica Berglyd Olsen <code@vkbo.net>
 Section: text
 Priority: optional
@@ -49,10 +49,10 @@ Build-Depends:
   debhelper (>= 9),
   %dependencies%
 Standards-Version: 4.5.1
-Homepage: https://novelwriter.io
+Homepage: https://github.com/YOUR_USERNAME/cowriter
 X-Python3-Version: >= {MIN_PY_VERSION}
 
-Package: novelwriter
+Package: cowriter
 Architecture: all
 Depends:
   ${{misc:Depends}},
@@ -98,7 +98,7 @@ def makeDebianPackage(
     # =============
 
     bldDir = ROOT_DIR / "dist_deb"
-    bldPkg = f"novelwriter_{pkgVers}"
+    bldPkg = f"cowriter_{pkgVers}"
     outDir = bldDir / bldPkg
     debDir = outDir / "debian"
     datDir = outDir / "data"
@@ -152,7 +152,7 @@ def makeDebianPackage(
     print("Wrote:  debian/control")
 
     writeFile(debDir / "changelog", (
-        f"novelwriter ({pkgVers}) {distName}; urgency=low\n\n"
+        f"cowriter ({pkgVers}) {distName}; urgency=low\n\n"
         f"  * Update to version {pkgVers}\n\n"
         f" -- Veronica Berglyd Olsen <code@vkbo.net>  {pkgDate}\n"
     ))
@@ -197,7 +197,7 @@ def makeDebianPackage(
     print("")
 
     if sourceBuild:
-        ppaName = "novelwriter" if hexVers[-2] == "f" else "novelwriter-pre"
+        ppaName = "cowriter" if hexVers[-2] == "f" else "cowriter-pre"
         return f"dput {ppaName}/{distName} {bldDir}/{bldPkg}_source.changes"
 
     return ""

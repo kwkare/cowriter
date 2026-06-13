@@ -29,11 +29,11 @@ import pytest
 
 from PyQt6.QtWidgets import QApplication
 
-from novelwriter import (
+from cowriter import (
     BLUE, CONFIG, END, FILE, LINE, LVLC, LVLP, TEXT, TIME, WHITE, _createApp,
     logger, main
 )
-from novelwriter.splash import NSplashScreen
+from cowriter.splash import NSplashScreen
 
 from tests.tools import clearLogHandlers
 
@@ -42,9 +42,9 @@ from tests.tools import clearLogHandlers
 def testBaseInit_Launch(caplog, monkeypatch, fncPath):
     """Check launching the main GUI."""
     monkeypatch.setattr(NSplashScreen, "finish", lambda *a: None)
-    monkeypatch.setattr("novelwriter.splash.sleep", lambda *a: None)
-    monkeypatch.setattr("novelwriter._createApp", lambda *a: Mock())
-    monkeypatch.setattr("novelwriter.guimain.GuiMain", Mock())
+    monkeypatch.setattr("cowriter.splash.sleep", lambda *a: None)
+    monkeypatch.setattr("cowriter._createApp", lambda *a: Mock())
+    monkeypatch.setattr("cowriter.guimain.GuiMain", Mock())
     monkeypatch.setattr(sys, "exit", Mock())
 
     # Default Launch
@@ -81,14 +81,14 @@ def testBaseInit_CreateApp(caplog, monkeypatch, fncPath):
 def testBaseInit_Options(monkeypatch, fncPath):
     """Test command line options for logging level."""
     monkeypatch.setattr(NSplashScreen, "finish", lambda *a: None)
-    monkeypatch.setattr("novelwriter.splash.sleep", lambda *a: None)
+    monkeypatch.setattr("cowriter.splash.sleep", lambda *a: None)
 
     gui = Mock()
     app = Mock()
     app.exec = Mock(return_value=0)
 
-    monkeypatch.setattr("novelwriter._createApp", lambda *a: app)
-    monkeypatch.setattr("novelwriter.guimain.GuiMain", lambda *a: gui)
+    monkeypatch.setattr("cowriter._createApp", lambda *a: app)
+    monkeypatch.setattr("cowriter.guimain.GuiMain", lambda *a: gui)
     monkeypatch.setattr(sys, "argv", [
         "novelWriter.py", f"--config={fncPath}", f"--data={fncPath}"
     ])
@@ -171,8 +171,8 @@ def testBaseInit_Options(monkeypatch, fncPath):
 @pytest.mark.base
 def testBaseInit_Imports(caplog, monkeypatch, fncPath):
     """Check import error handling."""
-    monkeypatch.setattr("novelwriter._createApp", lambda *a: Mock())
-    monkeypatch.setattr("novelwriter.guimain.GuiMain", lambda *a: Mock())
+    monkeypatch.setattr("cowriter._createApp", lambda *a: Mock())
+    monkeypatch.setattr("cowriter.guimain.GuiMain", lambda *a: Mock())
 
     monkeypatch.setattr("PyQt6.QtWidgets.QApplication.__init__", lambda *a: None)
     monkeypatch.setattr("PyQt6.QtWidgets.QApplication.exec", lambda *a: 0)
@@ -180,8 +180,8 @@ def testBaseInit_Imports(caplog, monkeypatch, fncPath):
     monkeypatch.setattr("PyQt6.QtWidgets.QErrorMessage.resize", lambda *a: None)
     monkeypatch.setattr("PyQt6.QtWidgets.QErrorMessage.showMessage", lambda *a: None)
     monkeypatch.setattr("sys.hexversion", 0x0)
-    monkeypatch.setattr("novelwriter.CONFIG.verQtValue", 0x050000)
-    monkeypatch.setattr("novelwriter.CONFIG.verPyQtValue", 0x050000)
+    monkeypatch.setattr("cowriter.CONFIG.verQtValue", 0x050000)
+    monkeypatch.setattr("cowriter.CONFIG.verPyQtValue", 0x050000)
 
     with pytest.raises(SystemExit) as ex:
         main([f"--config={fncPath}", f"--data={fncPath}"])

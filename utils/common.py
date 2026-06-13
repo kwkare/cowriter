@@ -57,7 +57,7 @@ def extractVersion(beQuiet: bool = False) -> tuple[str, str, str]:
     numVers = "0"
     hexVers = "0x0"
     relDate = "Unknown"
-    initFile = ROOT_DIR / "novelwriter" / "__init__.py"
+    initFile = ROOT_DIR / "cowriter" / "__init__.py"
     try:
         for aLine in initFile.read_text(encoding="utf-8").splitlines():
             if aLine.startswith("__version__"):
@@ -104,8 +104,8 @@ def formatVersion(value: str) -> str:
 
 
 def copySourceCode(dst: Path) -> None:
-    """Copy the novelwriter source tree to path."""
-    src = ROOT_DIR / "novelwriter"
+    """Copy the cowriter source tree to path."""
+    src = ROOT_DIR / "cowriter"
     for item in src.glob("**/*"):
         relSrc = item.relative_to(ROOT_DIR)
         if item.suffix in (".pyc", ".pyo"):
@@ -137,7 +137,7 @@ def copyPackageFiles(dst: Path, oldLicense: bool = False) -> None:
         "include LICENSE.md\n"
         "include LICENSE-Apache-2.0.txt\n"
         "include CREDITS.md\n"
-        "recursive-include novelwriter/assets *\n"
+        "recursive-include cowriter/assets *\n"
     ))
 
     text = readFile(ROOT_DIR / "pyproject.toml")
@@ -188,17 +188,17 @@ def checkAssetsExist() -> bool:
     hasManual = False
     hasQmData = False
 
-    sampleZip = ROOT_DIR / "novelwriter" / "assets" / "sample.zip"
+    sampleZip = ROOT_DIR / "cowriter" / "assets" / "sample.zip"
     if sampleZip.is_file():
         print(f"Found: {sampleZip}", flush=True)
         hasSample = True
 
-    pdfManual = ROOT_DIR / "novelwriter" / "assets" / "manual.pdf"
+    pdfManual = ROOT_DIR / "cowriter" / "assets" / "manual.pdf"
     if pdfManual.is_file():
         print(f"Found: {pdfManual}", flush=True)
         hasManual = True
 
-    i18nAssets = ROOT_DIR / "novelwriter" / "assets" / "i18n"
+    i18nAssets = ROOT_DIR / "cowriter" / "assets" / "i18n"
     if len(list(i18nAssets.glob("*.qm"))) > 0:
         print(f"Found: {i18nAssets}/*.qm", flush=True)
         hasQmData = True
@@ -210,7 +210,7 @@ def appdataXml() -> str:
     """Generate the appdata XML content."""
     raw = readFile(SETUP_DIR / "description_short.txt")
     desc = " ".join(raw.strip().splitlines()).strip()
-    return readFile(SETUP_DIR / "novelwriter.appdata.xml").format(description=desc)
+    return readFile(SETUP_DIR / "cowriter.appdata.xml").format(description=desc)
 
 
 def readFile(file: Path) -> str:

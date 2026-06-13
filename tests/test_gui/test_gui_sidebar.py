@@ -22,9 +22,9 @@ from __future__ import annotations
 
 import pytest
 
-from novelwriter import CONFIG
-from novelwriter.constants import nwLabels
-from novelwriter.enum import nwTheme
+from cowriter import CONFIG
+from cowriter.constants import nwLabels
+from cowriter.enum import nwTheme
 
 
 @pytest.mark.gui

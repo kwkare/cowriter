@@ -29,15 +29,15 @@ from zipfile import ZipFile
 
 import pytest
 
-from novelwriter import CONFIG
-from novelwriter.constants import nwConst, nwFiles, nwItemClass
-from novelwriter.core.buildsettings import BuildSettings
-from novelwriter.core.coretools import (
+from cowriter import CONFIG
+from cowriter.constants import nwConst, nwFiles, nwItemClass
+from cowriter.core.buildsettings import BuildSettings
+from cowriter.core.coretools import (
     DocDuplicator, DocMerger, DocSearch, DocSplitter, ProjectBuilder
 )
-from novelwriter.core.docbuild import NWBuildDocument
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwBuildFmt
+from cowriter.core.docbuild import NWBuildDocument
+from cowriter.core.project import NWProject
+from cowriter.enum import nwBuildFmt
 
 from tests.mocked import causeOSError
 from tests.tools import NWD_IGNORE, XML_IGNORE, C, buildTestProject, cmpFiles
@@ -706,7 +706,7 @@ def testCoreTools_ProjectBuilderCopyZipped(monkeypatch, caplog, mockGUI, fncPath
     # Cannot copy to existing folder
     caplog.clear()
     with monkeypatch.context() as mp:
-        mp.setattr("novelwriter.core.coretools.is_zipfile", lambda *a: True)
+        mp.setattr("cowriter.core.coretools.is_zipfile", lambda *a: True)
         assert builder.buildProject({"path": dstPath, "template": fakeZip}) is False
         assert "Could not copy project files." in caplog.text
         shutil.rmtree(dstPath, ignore_errors=True)
@@ -760,7 +760,7 @@ def testCoreTools_ProjectBuilderSample(monkeypatch, mockGUI, fncPath, tstPaths):
     srcSample = CONFIG._appRoot / "sample"
     dstSample = tstPaths.tmpDir / "sample.zip"
     monkeypatch.setattr(
-        "novelwriter.config.Config.assetPath", lambda *a: tstPaths.tmpDir / "sample.zip"
+        "cowriter.config.Config.assetPath", lambda *a: tstPaths.tmpDir / "sample.zip"
     )
 
     # Cannot extract when the zip does not exist

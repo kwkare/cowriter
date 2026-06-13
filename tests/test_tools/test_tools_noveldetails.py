@@ -24,9 +24,9 @@ import pytest
 
 from PyQt6.QtGui import QAction
 
-from novelwriter import SHARED
-from novelwriter.enum import nwItemClass
-from novelwriter.tools.noveldetails import GuiNovelDetails
+from cowriter import SHARED
+from cowriter.enum import nwItemClass
+from cowriter.tools.noveldetails import GuiNovelDetails
 
 
 @pytest.mark.gui

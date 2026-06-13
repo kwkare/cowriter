@@ -22,10 +22,10 @@ from __future__ import annotations
 
 import pytest
 
-from novelwriter import SHARED
-from novelwriter.dialogs.docsplit import GuiDocSplit
-from novelwriter.dialogs.editlabel import GuiEditLabel
-from novelwriter.types import QtAccepted, QtRejected
+from cowriter import SHARED
+from cowriter.dialogs.docsplit import GuiDocSplit
+from cowriter.dialogs.editlabel import GuiEditLabel
+from cowriter.types import QtAccepted, QtRejected
 
 from tests.tools import C, buildTestProject
 

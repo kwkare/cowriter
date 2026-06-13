@@ -28,14 +28,14 @@ from PyQt6.QtCore import QEvent, QItemSelectionModel, QModelIndex, QPointF
 from PyQt6.QtGui import QMouseEvent
 from PyQt6.QtWidgets import QMenu
 
-from novelwriter import CONFIG, SHARED
-from novelwriter.dialogs.docmerge import GuiDocMerge
-from novelwriter.dialogs.docsplit import GuiDocSplit
-from novelwriter.dialogs.editlabel import GuiEditLabel
-from novelwriter.enum import nwDocMode, nwItemClass, nwItemLayout, nwItemType
-from novelwriter.gui.projtree import _TreeContextMenu
-from novelwriter.shared import _GuiAlert
-from novelwriter.types import (
+from cowriter import CONFIG, SHARED
+from cowriter.dialogs.docmerge import GuiDocMerge
+from cowriter.dialogs.docsplit import GuiDocSplit
+from cowriter.dialogs.editlabel import GuiEditLabel
+from cowriter.enum import nwDocMode, nwItemClass, nwItemLayout, nwItemType
+from cowriter.gui.projtree import _TreeContextMenu
+from cowriter.shared import _GuiAlert
+from cowriter.types import (
     QtAccepted, QtModNone, QtMouseLeft, QtMouseMiddle, QtRejected,
     QtScrollAlwaysOff, QtScrollAsNeeded
 )

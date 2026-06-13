@@ -31,11 +31,11 @@ from PyQt6.QtGui import (
 )
 from PyQt6.QtWidgets import QFontDialog, QWidget
 
-from novelwriter.extensions.modified import (
+from cowriter.extensions.modified import (
     NClickableLabel, NComboBox, NDialog, NDoubleSpinBox, NFontDialog,
     NIconToggleButton, NIconToolButton, NSpinBox, NTreeView
 )
-from novelwriter.types import QtModNone, QtMouseLeft, QtMouseMiddle, QtRejected
+from cowriter.types import QtModNone, QtMouseLeft, QtMouseMiddle, QtRejected
 
 from tests.tools import SimpleDialog
 

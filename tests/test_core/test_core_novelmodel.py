@@ -25,11 +25,11 @@ import pytest
 from PyQt6.QtCore import QModelIndex
 from PyQt6.QtTest import QAbstractItemModelTester
 
-from novelwriter.core.indexdata import IndexHeading
-from novelwriter.core.novelmodel import NovelModel
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwNovelExtra
-from novelwriter.types import QtDisplayRole
+from cowriter.core.indexdata import IndexHeading
+from cowriter.core.novelmodel import NovelModel
+from cowriter.core.project import NWProject
+from cowriter.enum import nwNovelExtra
+from cowriter.types import QtDisplayRole
 
 from tests.tools import C, buildTestProject
 

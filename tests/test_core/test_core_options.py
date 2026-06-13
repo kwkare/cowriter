@@ -24,10 +24,10 @@ import json
 
 import pytest
 
-from novelwriter.constants import nwFiles
-from novelwriter.core.options import OptionState
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwNovelExtra
+from cowriter.constants import nwFiles
+from cowriter.core.options import OptionState
+from cowriter.core.project import NWProject
+from cowriter.enum import nwNovelExtra
 
 from tests.mocked import causeOSError
 

@@ -26,7 +26,7 @@ from PyQt6.QtCore import QSize
 from PyQt6.QtGui import QFont, QIcon, QPixmap
 from PyQt6.QtWidgets import QWidget
 
-from novelwriter.extensions.modified import NPushButton
+from cowriter.extensions.modified import NPushButton
 
 
 class MockGuiMain(QWidget):

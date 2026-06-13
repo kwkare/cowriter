@@ -24,8 +24,8 @@ import pytest
 
 from PyQt6.QtCore import Qt
 
-from novelwriter.dialogs.docmerge import GuiDocMerge
-from novelwriter.types import QtAccepted, QtRejected, QtUserRole
+from cowriter.dialogs.docmerge import GuiDocMerge
+from cowriter.types import QtAccepted, QtRejected, QtUserRole
 
 from tests.tools import C, buildTestProject
 

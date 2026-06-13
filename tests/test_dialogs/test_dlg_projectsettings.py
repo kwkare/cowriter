@@ -25,11 +25,11 @@ import pytest
 from PyQt6.QtGui import QAction, QColor
 from PyQt6.QtWidgets import QColorDialog, QFileDialog
 
-from novelwriter import CONFIG, SHARED
-from novelwriter.dialogs.editlabel import GuiEditLabel
-from novelwriter.dialogs.projectsettings import GuiProjectSettings
-from novelwriter.enum import nwItemType, nwStatusShape
-from novelwriter.types import QtAccepted, QtMouseLeft
+from cowriter import CONFIG, SHARED
+from cowriter.dialogs.editlabel import GuiEditLabel
+from cowriter.dialogs.projectsettings import GuiProjectSettings
+from cowriter.enum import nwItemType, nwStatusShape
+from cowriter.types import QtAccepted, QtMouseLeft
 
 from tests.mocked import causeOSError
 from tests.tools import C, buildTestProject

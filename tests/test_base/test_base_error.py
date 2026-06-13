@@ -24,7 +24,7 @@ import sys
 
 import pytest
 
-from novelwriter.error import NWErrorMessage, exceptionHandler
+from cowriter.error import NWErrorMessage, exceptionHandler
 
 from tests.mocked import causeException
 
@@ -101,7 +101,7 @@ def testBaseError_Handler(qtbot, monkeypatch, nwGUI):
     with monkeypatch.context() as mp:
         mp.setattr(NWErrorMessage, "exec", lambda *a: None)
         mp.setattr("PyQt6.QtWidgets.QApplication.exit", lambda *a: None)
-        mp.setattr("novelwriter.guimain.GuiMain.closeMain", causeException)
+        mp.setattr("cowriter.guimain.GuiMain.closeMain", causeException)
         exceptionHandler(Exception, "Error Message", None)  # type: ignore
 
     nwGUI.closeMain()

@@ -24,10 +24,10 @@ import pytest
 
 from PyQt6.QtGui import QIcon
 
-from novelwriter import SHARED
-from novelwriter.constants import nwLists
-from novelwriter.core.item import NWItem
-from novelwriter.dialogs.editlabel import GuiEditLabel
+from cowriter import SHARED
+from cowriter.constants import nwLists
+from cowriter.core.item import NWItem
+from cowriter.dialogs.editlabel import GuiEditLabel
 
 from tests.tools import C, buildTestProject
 

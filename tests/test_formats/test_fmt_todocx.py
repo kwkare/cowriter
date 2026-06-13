@@ -25,14 +25,14 @@ import zipfile
 
 import pytest
 
-from novelwriter.common import xmlIndent
-from novelwriter.constants import nwHeadFmt
-from novelwriter.core.buildsettings import BuildSettings
-from novelwriter.core.docbuild import NWBuildDocument
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwBuildFmt, nwComment
-from novelwriter.formats.shared import BlockFmt, BlockTyp
-from novelwriter.formats.todocx import OOXML_SCM, ToDocX, _mkTag, _wTag
+from cowriter.common import xmlIndent
+from cowriter.constants import nwHeadFmt
+from cowriter.core.buildsettings import BuildSettings
+from cowriter.core.docbuild import NWBuildDocument
+from cowriter.core.project import NWProject
+from cowriter.enum import nwBuildFmt, nwComment
+from cowriter.formats.shared import BlockFmt, BlockTyp
+from cowriter.formats.todocx import OOXML_SCM, ToDocX, _mkTag, _wTag
 
 from tests.tools import DOCX_IGNORE, cmpFiles, xmlToText
 

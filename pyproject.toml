@@ -3,9 +3,9 @@ requires = ["setuptools>=77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "novelWriter"
-authors = [{ name = "Veronica Berglyd Olsen", email = "code@vkbo.net" }]
-description = "A plain text editor for planning and writing novels"
+name = "CoWriter"
+authors = [{ name = "CoWriter Contributors" }]
+description = "AI-assisted novel writing editor, forked from novelWriter"
 readme = { file = "setup/description_pypi.md", content-type = "text/markdown" }
 license = "GPL-3.0-or-later AND Apache-2.0 AND CC-BY-4.0 AND ISC"
 license-files = ["LICENSE.md", "setup/LICENSE-Apache-2.0.txt"]
@@ -24,10 +24,17 @@ classifiers = [
     "Natural Language :: English",
     "Topic :: Text Editors",
 ]
+
 dependencies = [
     "pyqt6>=6.4",
     "pyenchant>=3.3.0",
     "pyobjc; sys_platform == 'darwin'",
+
+    # AI Assistant Dependencies
+    "httpx>=0.27.0",
+
+    # Optional: Local AI model support (uncomment to use)
+    # "ollama>=0.4.0",
 ]
 
 [dependency-groups]
@@ -52,19 +59,19 @@ test = ["coverage>=7.2.0", "pytest-qt", "pytest-timeout", "pytest>=6.0.0"]
 lint = ["isort", "pyright", "ruff~=0.15.0"]
 
 [project.urls]
-Homepage = "https://novelwriter.io"
-Documentation = "https://docs.novelwriter.io"
-Repository = "https://github.com/vkbo/novelWriter"
-Issues = "https://github.com/vkbo/novelWriter/issues"
+Homepage = "https://github.com/YOUR_USERNAME/cowriter"
+Documentation = "https://github.com/YOUR_USERNAME/cowriter"
+Repository = "https://github.com/YOUR_USERNAME/cowriter"
+Issues = "https://github.com/YOUR_USERNAME/cowriter/issues"
 
 [project.gui-scripts]
-novelwriter = "novelwriter:main"
+cowriter = "cowriter:main"
 
 [tool.setuptools.dynamic]
-version = { attr = "novelwriter.__init__.__version__" }
+version = { attr = "cowriter.__init__.__version__" }
 
 [tool.setuptools.packages.find]
-include = ["novelwriter*"]
+include = ["cowriter*"]
 
 [tool.isort]
 py_version = "311"

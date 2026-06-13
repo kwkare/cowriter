@@ -26,10 +26,10 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QFileDialog
 
-from novelwriter import SHARED
-from novelwriter.core.spellcheck import UserDictionary
-from novelwriter.dialogs.wordlist import GuiWordList
-from novelwriter.types import QtAccepted
+from cowriter import SHARED
+from cowriter.core.spellcheck import UserDictionary
+from cowriter.dialogs.wordlist import GuiWordList
+from cowriter.types import QtAccepted
 
 from tests.mocked import causeOSError
 from tests.tools import buildTestProject

@@ -27,13 +27,13 @@ from shutil import copyfile
 
 import pytest
 
-from novelwriter import SHARED
-from novelwriter.constants import nwFiles
-from novelwriter.core.item import NWItem
-from novelwriter.core.projectdata import NWProjectData
-from novelwriter.core.projectxml import ProjectXMLReader, ProjectXMLWriter, XMLReadState
-from novelwriter.core.status import CUSTOM_COL
-from novelwriter.enum import nwStatusShape
+from cowriter import SHARED
+from cowriter.constants import nwFiles
+from cowriter.core.item import NWItem
+from cowriter.core.projectdata import NWProjectData
+from cowriter.core.projectxml import ProjectXMLReader, ProjectXMLWriter, XMLReadState
+from cowriter.core.status import CUSTOM_COL
+from cowriter.enum import nwStatusShape
 
 from tests.mocked import causeOSError
 from tests.tools import cmpFiles, writeFile
@@ -52,8 +52,8 @@ class MockProject:
 @pytest.fixture(scope="function", autouse=True)
 def mockVersion(monkeypatch):
     """Mock the version info to prevent diff from failing."""
-    monkeypatch.setattr("novelwriter.core.projectxml.__version__", "2.7b1")
-    monkeypatch.setattr("novelwriter.core.projectxml.__hexversion__", "0x020700b1")
+    monkeypatch.setattr("cowriter.core.projectxml.__version__", "2.7b1")
+    monkeypatch.setattr("cowriter.core.projectxml.__hexversion__", "0x020700b1")
 
 
 @pytest.mark.core

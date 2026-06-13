@@ -24,13 +24,13 @@ import pytest
 
 from PyQt6.QtGui import QFont
 
-from novelwriter import CONFIG
-from novelwriter.constants import nwHeadFmt, nwStyles
-from novelwriter.core.project import NWProject
-from novelwriter.enum import nwComment
-from novelwriter.formats.shared import BlockFmt, BlockTyp, TextFmt, stripEscape
-from novelwriter.formats.tokenizer import COMMENT_STYLE, HeadingFormatter, Tokenizer
-from novelwriter.formats.tomarkdown import ToMarkdown
+from cowriter import CONFIG
+from cowriter.constants import nwHeadFmt, nwStyles
+from cowriter.core.project import NWProject
+from cowriter.enum import nwComment
+from cowriter.formats.shared import BlockFmt, BlockTyp, TextFmt, stripEscape
+from cowriter.formats.tokenizer import COMMENT_STYLE, HeadingFormatter, Tokenizer
+from cowriter.formats.tomarkdown import ToMarkdown
 
 from tests.tools import C, buildTestProject
 

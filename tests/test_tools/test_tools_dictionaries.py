@@ -29,8 +29,8 @@ import pytest
 from PyQt6.QtGui import QDesktopServices
 from PyQt6.QtWidgets import QFileDialog
 
-from novelwriter import SHARED
-from novelwriter.tools.dictionaries import GuiDictionaries
+from cowriter import SHARED
+from cowriter.tools.dictionaries import GuiDictionaries
 
 from tests.mocked import causeException, causeOSError
 

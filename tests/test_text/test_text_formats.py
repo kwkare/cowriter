@@ -22,8 +22,8 @@ from __future__ import annotations
 
 import pytest
 
-from novelwriter.enum import nwComment
-from novelwriter.text.formats import _checkModKey, processComment, processHeading
+from cowriter.enum import nwComment
+from cowriter.text.formats import _checkModKey, processComment, processHeading
 
 
 @pytest.mark.core
