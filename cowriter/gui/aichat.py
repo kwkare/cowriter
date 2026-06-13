@@ -133,7 +133,7 @@ class GuiAIChatPanel(NNonBlockingDialog):
         return self._session
 
     def _updateContext(self) -> None:
-        """Update context from current project/document."""
+        """Update context from current project."""
         if not self._session:
             return
         project = SHARED.project
@@ -141,9 +141,6 @@ class GuiAIChatPanel(NNonBlockingDialog):
             context = []
             context.append(f"Project: {project.data.name}")
             context.append(f"Author: {project.data.author}")
-            if current := SHARED.currentDocument:
-                if doc := current.doc:
-                    context.append(f"Current Document: {doc.itemName}")
             self._session.set_context("\n".join(context))
 
     def _sendMessage(self) -> None:
